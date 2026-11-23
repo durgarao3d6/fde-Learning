@@ -238,3 +238,138 @@ That second condition forces the measurement to be tied to real customer outcome
 Even low-cost automation should not handle data in a region or retention arrangement that the DPO has not approved. Nor should it bypass human approval for refunds.
 
 Model quality, privacy, policy governance and integration access are **constraints**, not just price-adjustment factors.
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. What is the core build/buy/extend rule?</strong></summary>
+
+Buy what fits, extend what the client already has and build only the thin missing layer.
+
+</details>
+
+<details>
+<summary><strong>2. What support platform does DemoStore already use?</strong></summary>
+
+ServiceNow, with Now Assist for capabilities such as case summaries and notes.
+
+</details>
+
+<details>
+<summary><strong>3. Who should inventory licenses and integrations?</strong></summary>
+
+Ravi Menon, the systems owner and Director of E-commerce Engineering.
+
+</details>
+
+<details>
+<summary><strong>4. Which vendors are discussed?</strong></summary>
+
+Intercom Fin, Zendesk AI, Salesforce Agentforce, Sierra and Decagon, alongside ServiceNow.
+
+</details>
+
+<details>
+<summary><strong>5. What survey detail does the course cite?</strong></summary>
+
+A 2025 a16z survey of 100 IT heads in which more than 90% were trying off-the-shelf customer-support products.
+
+</details>
+
+<details>
+<summary><strong>6. What example vendor cost is used?</strong></summary>
+
+$0.99 per vendor-counted resolution, an illustrative historical figure.
+
+</details>
+
+<details>
+<summary><strong>7. What example human cost is used?</strong></summary>
+
+$7 per contact.
+
+</details>
+
+<details>
+<summary><strong>8. At 1,600 chats a week, what are the weekly costs?</strong></summary>
+
+Vendor 1,600 × $0.99 = $1,584; humans 1,600 × $7 = $11,200.
+
+</details>
+
+<details>
+<summary><strong>9. What are the simple annualized totals?</strong></summary>
+
+$82,368 vendor versus $582,400 human, before integration, repeat contacts and residual human work.
+
+</details>
+
+<details>
+<summary><strong>10. Why is the arithmetic not net savings?</strong></summary>
+
+It assumes equal true resolution, ignores remaining human handling and excludes integration, platform and operating costs.
+
+</details>
+
+<details>
+<summary><strong>11. What is DemoStore's true-resolution definition?</strong></summary>
+
+No human handoff and no repeat contact on the same issue within seven days.
+
+</details>
+
+<details>
+<summary><strong>12. How could vendor resolution counts be misleading?</strong></summary>
+
+The provider might count a chat ending or a customer abandoning it as resolved, even when the real issue was not solved.
+
+</details>
+
+<details>
+<summary><strong>13. Why does DemoStore still need custom middleware?</strong></summary>
+
+Ledgerline's legacy Oracle ERP lacks a suitable API or supported vendor connector.
+
+</details>
+
+<details>
+<summary><strong>14. Who reviews privacy storage, retention and geography?</strong></summary>
+
+Sofia Lindqvist, the Data Protection Officer.
+
+</details>
+
+<details>
+<summary><strong>15. What should be implemented as deterministic code?</strong></summary>
+
+Market- and contract-specific returns policy rather than trusting model-generated policy decisions.
+
+</details>
+
+<details>
+<summary><strong>16. Why extend ServiceNow rather than replace it?</strong></summary>
+
+Existing cases, approvals, staff processes and licenses already have organizational value and governance.
+
+</details>
+
+<details>
+<summary><strong>17. What is the strongest interview answer to 'why not buy everything'?</strong></summary>
+
+A vendor may cover commodity chat while failing legacy Ledgerline integration, specific policy rules, data-processing requirements or DemoStore's genuine-resolution metric.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
