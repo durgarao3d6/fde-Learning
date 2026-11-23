@@ -171,3 +171,82 @@ A carrier status such as “scanned at depot” does not establish a guaranteed 
 - [ ] Describe **Ledgerline middleware and nightly CSV**.
 - [ ] Explain why API requests must resend history.
 - [ ] Distinguish verified identity from model-generated arguments.
+
+---
+
+# Full Message-Turn Walkthrough and Enterprise Integration Notes
+
+## The distinction between intent classification and action execution
+The model can infer that a customer wants a delivery update, but that inference does not reveal the shipment's actual state. The data must come from a trusted tool. The model's **tool request** is effectively a proposal: “Please look up this particular order.”
+
+The application decides whether:
+- The tool is on the allowlist.
+- Arguments have the expected types.
+- The customer has verified their identity.
+- The requested order belongs to that identity.
+- The tool should run within resource and policy limits.
+
+This is the broader concept of **least authority**: expose only the capabilities needed for the support workflow.
+
+## A complete conceptual conversation
+```text
+USER:
+"Where's my laptop? I ordered it last week."
+
+ASSISTANT → TOOL REQUEST:
+find_order({"order_number": "ORDER-EXAMPLE-001"})
+
+APPLICATION:
+Check a verified customer exists.
+Check the order belongs to that customer.
+Call the safe order adapter.
+
+TOOL RESULT:
+{"found": true, "tracking_number": "TRACK-EXAMPLE-001"}
+
+ASSISTANT → TOOL REQUEST:
+delivery_status({"tracking_number": "TRACK-EXAMPLE-001"})
+
+APPLICATION:
+Authorize shipment visibility.
+Read the carrier record.
+
+TOOL RESULT:
+{"status": "delayed", "last_scan": "Leeds depot", "eta": null}
+
+ASSISTANT → USER:
+"The carrier data shows your parcel was last scanned at
+the Leeds depot and is delayed. I do not have a confirmed
+delivery date from this record."
+```
+
+This sample combines the tool-calling mechanics with the later agent-loop scenario; its payloads are **illustrative**, not verbatim output from the transcript.
+
+### Why the result's ID matters
+If Claude requests two tools in one response, the application must connect each return value to the correct request. The **`tool_use_id`** provides that link. A result with the wrong ID or message shape can break continuity or cause the wrong facts to be associated with a request.
+
+### The nightly carrier-file detail
+A CSV refreshed at night is inherently a **snapshot**. The model may explain the recorded status but must not present it as second-by-second live data. Frontline agents in the discovery lesson even checked the carrier website because they did not always trust the morning file.
+
+### Why email one-time code is not an LLM feature
+Verification includes sending a code, proving possession of the mailbox and updating trusted application-session state. The model can explain steps, but cannot declare “verified” by predicting that the customer sounds legitimate.
+
+## Tool calling does not imply an autonomous agent
+A tool request may happen inside a **fixed workflow**: classify intent once, run `find_order`, return a templated answer. A full agent loop becomes justified when the **sequence of tools is chosen dynamically** from intermediate results.
+
+This distinction connects to the later “When Not to Use AI” lesson: tool schemas are available in both workflows, but autonomy is optional.
+
+## Debugging checklist
+- **No tool request** when expected: inspect the tool description and task instruction.
+- **Malformed arguments**: validate model output against the tool schema.
+- **Tool result ignored**: inspect the appended result message and matching `tool_use_id`.
+- **Model invents an ETA**: ground the response in tool data and test missing values.
+- **Unauthorized result**: fix application-level access control, not just prompting.
+- **Repeated tool requests**: introduce a hard iteration limit and bounded retries.
+
+## Quick oral-exam drill
+1. Can the model execute Python directly? **No; the host application executes approved tool calls.**
+2. Is a schema sufficient authorization? **No.**
+3. How does the model receive an actual lookup result? **Application sends a tool-result block in subsequent context.**
+4. Should application code look for the literal words “I'll search”? **No; use structured `stop_reason`.**
+5. Is the carrier status necessarily live? **No; it comes from a nightly CSV.**
