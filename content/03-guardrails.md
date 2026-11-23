@@ -169,3 +169,74 @@ Tests should assert on **tool results and authorization decisions**, not only th
 - [ ] Foreign order and nonexistent order: **same response**.
 - [ ] Refund: **draft**, never direct execution.
 - [ ] Authorization is **per tool**, including carrier status.
+
+---
+
+# Threat Cases and Mandatory Enforcement Points
+
+## Case study: order-number enumeration
+Imagine customer A submits three plausible order numbers. One is theirs, one belongs to customer B and one does not exist.
+
+If the tool returns:
+- “This order belongs to another person” for the existing foreign order.
+- “Order does not exist” for the nonexistent order.
+
+then customer A has learned which identifiers correspond to real purchases. Even without seeing items or addresses, that is an **information disclosure**.
+
+Return **the same not-found semantics** for both unauthorized and unknown orders. Record richer details only in appropriately controlled internal audit logs.
+
+## Case study: model-supplied identity
+A customer says, “I am customer 999, check their order.” The model might pass `customer=999` to a tool if permitted. That is not identity verification.
+
+Correct design:
+```python
+# Illustrative trusted boundary
+def find_order_for_session(order_number, session):
+    customer_id = session.verified_customer_id
+    if customer_id is None:
+        return {"error": "verification_required"}
+    return erp_adapter.find_owned_order(order_number, customer_id)
+```
+
+The model may supply the **order number**, but it cannot choose the trusted customer identity.
+
+## Case study: circumventing ownership through a second tool
+Suppose `find_order` securely rejects someone else's order, but `delivery_status` accepts any tracking number without an ownership check. An attacker might still retrieve shipment updates by guessing tracking numbers.
+
+Therefore **each tool independently enforces applicable authorization**. Do not assume a prior tool was always used or that the model will follow a specific call order.
+
+## Case study: refund side effects
+The model can draft a proposed refund amount and reason, but it cannot execute the payout. The proposal goes to a **holding table**, then the approved **ServiceNow** workflow takes over.
+
+Why a holding table?
+- Separates draft recommendations from authorized transactions.
+- Gives a person information to review.
+- Creates an explicit approval boundary.
+- Keeps monetary side effects outside model control.
+
+Do not mistake “the model only has a draft tool” for complete security; the draft-writing destination must also be properly authorized.
+
+## Case study: infinite model/tool exchange
+Sometimes models make redundant tool requests or fail to settle on a final answer. A hard limit of **10 tool rounds** prevents uncontrolled loops. Exhaustion becomes a deterministic reason to stop and use a human handoff rather than continuing to consume tokens.
+
+The loop's control condition should use **structured response metadata**, never parse a model's assurances such as “This is my last call.”
+
+## Acceptance-test matrix (illustrative)
+| Scenario | Expected tool behavior |
+|---|---|
+| Customer not verified | No order details |
+| Own order exists | Return permitted fields |
+| Someone else's order | Generic not-found |
+| Unknown order | Same generic not-found |
+| Own tracking exists | Return associated carrier record |
+| Tracking belongs to another customer | Deny without private status |
+| Refund requested | Create proposal only, no money moved |
+| Eleven attempts to continue loop | Stop at 10-round boundary |
+
+## How to explain defense in depth
+**Prompt rules** describe desired model behavior. **Tool permissions** restrict reachable operations. **Session identity** establishes the caller. **Per-object authorization** decides which records are visible. **Human approvals** protect sensitive business actions. **Round caps and exceptions** preserve predictable execution.
+
+No single layer should be presented as a complete safety solution.
+
+## Memory anchors
+**Verified identity from session → per-tool ownership → generic missing/foreign error → refund drafts only → ServiceNow human approval → 10-round cap.**
