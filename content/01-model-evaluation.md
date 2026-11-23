@@ -259,3 +259,124 @@ Because a schema field name is part of the model instruction. The lesson found t
 
 ## Final memory anchors
 **40 chats; 21 handoff cases; Haiku/Sonnet/Opus; three repeats; 360 calls; 20 workers; rename `reasoning` to `summary`; approximately half of required handoffs missed; improve prompting before accepting Haiku.**
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. What is the business question behind the model comparison?</strong></summary>
+
+Which model can classify DemoStore support requests, choose the correct next action and escalate when needed at an acceptable cost and latency—not which model is generally most powerful.
+
+</details>
+
+<details>
+<summary><strong>2. Who supplied the evaluation evidence?</strong></summary>
+
+Marco Rossi, DemoStore's head of support, supplied 40 real labeled support conversations from his team. Lena Brandt is the business sponsor.
+
+</details>
+
+<details>
+<summary><strong>3. What labels are needed on each chat?</strong></summary>
+
+The customer intent, correct action and whether a human handoff is required. Model predictions are compared with these independent labels.
+
+</details>
+
+<details>
+<summary><strong>4. Why compare Haiku, Sonnet and Opus on the same dataset?</strong></summary>
+
+Holding the cases and evaluation rules constant isolates differences in quality, cost and consistency between candidates.
+
+</details>
+
+<details>
+<summary><strong>5. What is the exact evaluation volume?</strong></summary>
+
+40 conversations × 3 models × 3 runs = 360 model requests. The sample implementation uses ThreadPoolExecutor(max_workers=20).
+
+</details>
+
+<details>
+<summary><strong>6. Why three repeats rather than one?</strong></summary>
+
+Because model responses may vary. Repeated runs reveal instability on identical customer messages.
+
+</details>
+
+<details>
+<summary><strong>7. Which metrics matter besides intent accuracy?</strong></summary>
+
+Correct action, missed and unnecessary handoffs, latency, cost and consistency. A correct intent can still lead to an incorrect action.
+
+</details>
+
+<details>
+<summary><strong>8. Explain a missed handoff.</strong></summary>
+
+A customer needed human support under the ground-truth labels but the model failed to request it. The course treats this as more serious than an avoidable extra handoff.
+
+</details>
+
+<details>
+<summary><strong>9. How many mandatory handoff cases existed and what happened?</strong></summary>
+
+21 of the 40 labeled cases required escalation. Across repeated runs, all three models missed approximately half of the required handoffs.
+
+</details>
+
+<details>
+<summary><strong>10. Does buying Opus resolve a weak escalation prompt?</strong></summary>
+
+No. The comparison found the handoff problem across all three models; improving the prompt and then re-evaluating is more appropriate.
+
+</details>
+
+<details>
+<summary><strong>11. Why was the field reasoning renamed summary?</strong></summary>
+
+Opus sometimes interpreted 'reasoning' as asking for private internal reasoning. 'summary' clarified that a concise shareable explanation was wanted.
+
+</details>
+
+<details>
+<summary><strong>12. What historical example prices were cited?</strong></summary>
+
+Illustrative input per million tokens: Opus $4, Sonnet $2, Haiku $0.10, with output about five times input; example per 1,000 chats was Opus ~$3 and Haiku under $0.10. Do not treat as today's prices.
+
+</details>
+
+<details>
+<summary><strong>13. Why might Haiku be selected tentatively?</strong></summary>
+
+Its much lower inference cost may suit structured intent extraction, but it must first meet the handoff and action-quality thresholds after prompt revision.
+
+</details>
+
+<details>
+<summary><strong>14. What is the difference between evaluation and release approval?</strong></summary>
+
+Evaluation identifies relative candidate behavior on labeled cases; production readiness also requires validated policy, privacy, guardrails, operational testing and an agreed safety bar.
+
+</details>
+
+<details>
+<summary><strong>15. How would you present this to a skeptical sponsor?</strong></summary>
+
+Show the labeled 40-case protocol, repeated model scores, actual missed handoffs, cost estimates and a clear recommendation to fix escalation errors before a pilot.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
