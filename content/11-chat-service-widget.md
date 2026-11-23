@@ -1388,4 +1388,4 @@ Then approve a phased plan, verify each phase independently, and save a Git chec
 
 ---
 
-**Additional deep-dive material:** [Extended notes and extra interview practice questions](../../extras/11-chat-service-widget-additional-study-notes.md).
+**Additional deep-dive material:** [Extended notes and extra interview practice questions](../extras/11-chat-service-widget-additional-study-notes.md).
