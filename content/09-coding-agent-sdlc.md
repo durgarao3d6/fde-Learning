@@ -353,3 +353,145 @@ Correct response:
 - Which operations the agent can perform.
 
 A pull request explanation saying only **“AI generated this”** provides none of that accountability.
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. How is a coding agent like the earlier customer-support agent?</strong></summary>
+
+Both use an LLM-plus-tools loop; a coding agent's tools read/edit files and execute commands.
+
+</details>
+
+<details>
+<summary><strong>2. Which coding-agent products were mentioned?</strong></summary>
+
+Claude Code, Codex, Gemini CLI, GitHub Copilot and Cursor.
+
+</details>
+
+<details>
+<summary><strong>3. What is the core accountability rule?</strong></summary>
+
+The agent writes code, but the developer is responsible for accepting it.
+
+</details>
+
+<details>
+<summary><strong>4. What are the three habits?</strong></summary>
+
+Plan in phases, define project rules, demand proof and a checkpoint after every phase.
+
+</details>
+
+<details>
+<summary><strong>5. What happens with 'build the assistant' as one huge prompt?</strong></summary>
+
+The lesson warns of an uncontrolled run changing around 30 files without clear decisions or reviewable boundaries.
+
+</details>
+
+<details>
+<summary><strong>6. What is Plan Mode for?</strong></summary>
+
+Reading code, asking clarifying questions and proposing a plan without changing files.
+
+</details>
+
+<details>
+<summary><strong>7. Why store the plan in the repository?</strong></summary>
+
+It survives session resets and can be reviewed, versioned and used by the next coding-agent session.
+
+</details>
+
+<details>
+<summary><strong>8. What belongs in CLAUDE.md?</strong></summary>
+
+Test command, centralized model constant and project rules such as refunds only as drafts and restricted Ledgerline writes.
+
+</details>
+
+<details>
+<summary><strong>9. What are the three permission categories?</strong></summary>
+
+Allow routine reads/tests; ask before installs/pushing; deny secret-file access.
+
+</details>
+
+<details>
+<summary><strong>10. Why are prompt-based restrictions not enough?</strong></summary>
+
+Instructions guide behavior; actual permissions and code-level checks enforce allowed actions.
+
+</details>
+
+<details>
+<summary><strong>11. What does /clear do in the described workflow?</strong></summary>
+
+Resets stale coding-agent conversation context between phases while plans and rules remain in files.
+
+</details>
+
+<details>
+<summary><strong>12. Why isn't 'all tests pass' proof?</strong></summary>
+
+It is only model-generated text until the engineer runs tests or inspects trustworthy output.
+
+</details>
+
+<details>
+<summary><strong>13. Why review changed tests as carefully as changed code?</strong></summary>
+
+An agent may weaken or rewrite expected results to make incorrect behavior appear to pass.
+
+</details>
+
+<details>
+<summary><strong>14. Why replay Marco's 40 examples?</strong></summary>
+
+Code-level tests don't automatically measure model accuracy and missed handoffs after behavioral changes.
+
+</details>
+
+<details>
+<summary><strong>15. What is a Git checkpoint?</strong></summary>
+
+A commit after a verified phase, giving a known-good recovery point.
+
+</details>
+
+<details>
+<summary><strong>16. What do you do if phase three rewrites too much?</strong></summary>
+
+Revert to the latest verified commit if necessary, tighten the plan and retry a smaller phase.
+
+</details>
+
+<details>
+<summary><strong>17. Who reviews DemoStore's engineering changes?</strong></summary>
+
+Ravi Menon's engineering team; 'the agent wrote it' is not a justification.
+
+</details>
+
+<details>
+<summary><strong>18. What is the central rule?</strong></summary>
+
+Plan in phases, prove each one, and commit before the next.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
