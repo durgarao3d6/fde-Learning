@@ -271,3 +271,152 @@ Even then, define the narrow new question and deadline rather than silently exte
 ```
 
 This list is illustrative, but the **shortcut ledger and review before pilot** are explicit lesson ideas.
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. How does the course define a prototype?</strong></summary>
+
+A question, not a product. It tests one written assumption under a fixed time box.
+
+</details>
+
+<details>
+<summary><strong>2. What is DemoStore's proposed assumption?</strong></summary>
+
+With appropriate order data, can the assistant answer order-status chats correctly and escalate the right cases?
+
+</details>
+
+<details>
+<summary><strong>3. What illustrative accuracy threshold is proposed?</strong></summary>
+
+At least 36 correct actions out of 40 labeled chats, or 90%.
+
+</details>
+
+<details>
+<summary><strong>4. What is the second mandatory criterion?</strong></summary>
+
+Zero missed required human handoffs. Both accuracy and safety criteria must pass.
+
+</details>
+
+<details>
+<summary><strong>5. What is the agreed time box?</strong></summary>
+
+Five working days, agreed before implementation.
+
+</details>
+
+<details>
+<summary><strong>6. What are the end-of-time-box decisions?</strong></summary>
+
+Yes, no or not clear yet.
+
+</details>
+
+<details>
+<summary><strong>7. Who can redirect spending after the experiment?</strong></summary>
+
+Sponsor Lena Brandt, using the experiment's evidence.
+
+</details>
+
+<details>
+<summary><strong>8. Which parts must be real?</strong></summary>
+
+The actual model, prompt, tool descriptions and Marco's 40 messy real labeled conversations.
+
+</details>
+
+<details>
+<summary><strong>9. What may be faked around the test?</strong></summary>
+
+Ledgerline with 20 test orders, a few fixed carrier statuses and controlled email-code test infrastructure.
+
+</details>
+
+<details>
+<summary><strong>10. What is the sample carrier status example?</strong></summary>
+
+'Out for delivery, Thursday' is an illustrative fixture.
+
+</details>
+
+<details>
+<summary><strong>11. Why preserve find_order and delivery_status contracts?</strong></summary>
+
+So fake fixtures can later be swapped for real systems without teaching the model a different interface.
+
+</details>
+
+<details>
+<summary><strong>12. Why not replace real chats with clean synthetic ones?</strong></summary>
+
+That would make the actual tested input easier and potentially hide real failure modes.
+
+</details>
+
+<details>
+<summary><strong>13. What safeguards still apply in a five-day prototype?</strong></summary>
+
+No API keys in source, DPO-approved data handling, ownership checks and no money-moving tools.
+
+</details>
+
+<details>
+<summary><strong>14. What is a quick-fix list?</strong></summary>
+
+A repository record of temporary shortcuts that must be examined and rewritten before pilot or production.
+
+</details>
+
+<details>
+<summary><strong>15. What is kept if the prototype works?</strong></summary>
+
+Clean tool definitions, prompt, evaluation program and fake tool versions for automated regression tests.
+
+</details>
+
+<details>
+<summary><strong>16. What is kept if it fails?</strong></summary>
+
+The evidence and learning; discard experimental implementation that has no remaining value.
+
+</details>
+
+<details>
+<summary><strong>17. Why is a failed prototype sometimes a success?</strong></summary>
+
+It rejects an expensive wrong assumption quickly and informs the sponsor before a large commitment.
+
+</details>
+
+<details>
+<summary><strong>18. What are the three common mistakes?</strong></summary>
+
+Extending the time box for polish, faking the actual test inputs, and treating prototype shortcuts as production design.
+
+</details>
+
+<details>
+<summary><strong>19. What is the central quote?</strong></summary>
+
+Fake the systems around the question, never the question itself, and decide before you start when to stop.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
