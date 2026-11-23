@@ -245,3 +245,124 @@ G: Model keeps asking for tools → maximum-round stop
 
 ## Memory anchors
 **tools.py = JSON/CSV fixtures; agent.py = definitions + dispatcher + loop; Leeds depot = delayed scan, no invented ETA; tool ownership, exceptions and ten rounds needed before production.**
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. What is the difference between tool calling and an agent loop?</strong></summary>
+
+Tool calling requests one function. An agent loop repeatedly chooses next actions based on prior tool results until a final response or bounded fallback.
+
+</details>
+
+<details>
+<summary><strong>2. What does tools.py contain?</strong></summary>
+
+Mock Ledgerline order data from JSON, carrier status from CSV, and functions find_order(order_number, customer) and delivery_status(tracking_number).
+
+</details>
+
+<details>
+<summary><strong>3. What does agent.py contain?</strong></summary>
+
+Tool schemas, a run_tool dispatcher, message accumulation and the repeated model/tool loop.
+
+</details>
+
+<details>
+<summary><strong>4. Why use fake ERP and carrier data initially?</strong></summary>
+
+To test tool contracts and integration without requiring access to real legacy systems.
+
+</details>
+
+<details>
+<summary><strong>5. What happens on stop_reason=tool_use?</strong></summary>
+
+Parse approved requests, validate and execute tools, append results linked to tool_use_id, then call Claude again.
+
+</details>
+
+<details>
+<summary><strong>6. What happens on stop_reason=end_turn?</strong></summary>
+
+Return the final model response to the application caller.
+
+</details>
+
+<details>
+<summary><strong>7. Why append both assistant tool-use and tool-result messages?</strong></summary>
+
+To preserve a coherent sequence so the next model call knows which tool was requested and what it actually returned.
+
+</details>
+
+<details>
+<summary><strong>8. What was the Leeds example?</strong></summary>
+
+A shipment had a delayed scan at a Leeds depot. The assistant reported the known delay without inventing an estimated arrival time.
+
+</details>
+
+<details>
+<summary><strong>9. How should the model answer a tracking ID absent from the CSV?</strong></summary>
+
+Admit that there is no tracking information and avoid guessing; follow the authorized support fallback.
+
+</details>
+
+<details>
+<summary><strong>10. Why should run_tool use an allowlist?</strong></summary>
+
+A model-generated name should not invoke arbitrary functions or code.
+
+</details>
+
+<details>
+<summary><strong>11. What production authorization improvement was needed?</strong></summary>
+
+Check that delivery_status tracking data belongs to the verified customer, not just that find_order did.
+
+</details>
+
+<details>
+<summary><strong>12. Which failure handling was missing from the simple demo?</strong></summary>
+
+Exceptions for tool, file and API errors, a ten-round bound and robust fallback.
+
+</details>
+
+<details>
+<summary><strong>13. Can the agent call delivery_status before find_order?</strong></summary>
+
+The model may request it; the application must still enforce independent access control instead of assuming a safe order.
+
+</details>
+
+<details>
+<summary><strong>14. How do you test an agent loop without paying for model calls each time?</strong></summary>
+
+Mock tool/model responses for control-flow tests, retain fake backend fixtures, and separately run opt-in real integration tests.
+
+</details>
+
+<details>
+<summary><strong>15. Why is this not yet a multi-turn web service?</strong></summary>
+
+At this stage agent.answer does not accept conversation history. The later FastAPI lesson plans a backward-compatible optional history argument.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
