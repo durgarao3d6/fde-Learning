@@ -260,3 +260,96 @@ The exact commands depend on the project's tooling and permission settings.
 - [ ] Replay **40 labeled cases**.
 - [ ] **Ravi Menon** owns engineering review.
 - [ ] Key line: **plan in phases, prove each, commit before next**.
+
+---
+
+# Phase-by-Phase Operating Playbook for a Coding Agent
+
+## The difference between generated code and accepted code
+A coding agent can finish producing files before the engineer has decided that those files are correct. The course treats **generation** and **acceptance** as separate events.
+
+**Generation:** Claude Code edits files and reports its work.
+
+**Verification:** Engineer runs tests and examines the diff.
+
+**Acceptance:** Engineer approves a small phase and commits it to Git.
+
+This distinction is the core of the lesson's phrase **“The agent writes the code, but you answer for it.”**
+
+## A durable plan is more than a chat summary
+Consider an illustrative repository file:
+```markdown
+# Plan — DemoStore Chat Service
+Phase 1: Shared intent schema.
+Verification: fast schema tests and code review.
+Phase 2: Conversation history support.
+Verification: old callers and new history callers work.
+Phase 3: FastAPI API.
+Verification: request/session contract tests.
+```
+
+This is not the exact plan file from the video, but it demonstrates why the plan must be accessible after `/clear` and between coding sessions.
+
+## What to inspect in a proposed phase
+1. **Scope:** Is it small enough to understand?
+2. **Interfaces:** Which existing contracts may change?
+3. **Safety:** Which permissions and identity checks are affected?
+4. **Tests:** What evidence will establish completion?
+5. **Rollback:** Could we revert this without undoing unrelated work?
+6. **Documentation:** Will new assumptions be recorded durably?
+
+A model suggestion is a draft, not an approval.
+
+## Permission categories in context
+| Setting | Course example | Why |
+|---|---|---|
+| Allow | Read code / run tests | Routine development |
+| Ask | Install dependencies / push GitHub | Changes external state or dependencies |
+| Deny | Open secrets file containing API key | Prevent unnecessary secret exposure |
+
+Never assume a prompt rule like “Don't read secrets” is equivalent to a **deny rule enforced by the agent's tool runtime**.
+
+## Reviewing an AI-generated test suite
+A broken application can still have a green suite if the agent changes tests to match incorrect behavior.
+
+Look for:
+- Assertions removed.
+- Security tests weakened.
+- New expected values that merely mirror the bug.
+- All mocks, no meaningful integration tests.
+- Test skips hiding failures.
+- Changed fixture data making failure cases easier.
+
+The engineer's independent run must be paired with **diff review**.
+
+## Example escalation of review seriousness
+A pure UI text change may require a simple build and visual check.
+
+A change to **`find_order` authorization** requires scrutiny of verified session identity, another customer's record and nonexistent order behavior.
+
+A change to refund-related code requires validation that **no money-moving capability** became accessible to the agent.
+
+A change to LLM behavior requires replaying **Marco's 40 labeled cases** and examining missed handoffs.
+
+## Recovery example
+Phase two was committed. Phase three accidentally rewrites the order tools and makes a previously forbidden read possible.
+
+Correct response:
+1. Stop the agent.
+2. Inspect the diff.
+3. Do not accept green tests if security semantics changed.
+4. Restore the last known-good commit if necessary.
+5. Rewrite the smaller phase prompt with explicit authorization tests.
+6. Try again in a clean session.
+
+**This is why commits after each accepted phase matter**—the recovery scope remains bounded.
+
+## Why Ravi's review is essential
+**Ravi Menon and his engineering team** own the production systems. They need to understand:
+- What changed.
+- Why it changed.
+- Which tests were run.
+- Where data flows.
+- Which operations the agent can perform.
+
+A pull request explanation saying only **“AI generated this”** provides none of that accountability.
