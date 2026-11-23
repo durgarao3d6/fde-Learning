@@ -395,3 +395,541 @@ This follows the earlier AI SDLC rule to clear stale context and preserve durabl
 - [ ] `llm.py` **unchanged** due to compatibility.
 - [ ] Independent **four passing tests**, file inspection, Git commit.
 - [ ] Fresh agent session for each next phase.
+
+---
+
+# Expanded Study Companion: All Planning and Phase-One Details
+
+## Part A — Why we need product code
+
+The team has functional small programs but no customer-facing experience.
+
+- **`llm.py`** adapts API requests to Claude.
+- **`intent.py`** checks the structured intent result.
+- **`agent.py`** contains a multi-step agent loop using the order tools.
+
+These demonstrate individual capabilities. DemoStore customers instead need a **chat window on the website** and a **service behind it** connected to those modules.
+
+This is **product code**, so Claude Code may generate it; the engineer **steers and checks**. The inputs to the agent are the **five-point brief** from the preceding interview and **project rules**.
+
+**Critical ordering:** Review Claude Code's **plan before any code is written**.
+
+## Part B — The five requirements, fully unpacked
+
+### Requirement 1 — FastAPI chat service
+The application uses **FastAPI**, a Python library/framework for web services.
+
+A message comes in. A response contains:
+1. The assistant's **reply**.
+2. The classified **intent**.
+3. A **session ID**.
+
+Why session ID? It associates multiple HTTP requests with the correct conversation, allowing the backend to keep context.
+
+The lesson does not provide a literal route name, so `POST /chat` below is **illustrative**.
+
+```text
+React widget --message, optional session ID--> FastAPI service
+React widget <--reply, intent, session ID------- FastAPI service
+```
+
+A session is a **record of one conversation**. It is not an authentication credential. Protected order data still requires a separately verified identity.
+
+### Requirement 2 — The AI notice
+The **first reply** states that:
+- The customer is talking to **an AI**.
+- They may ask to speak to a **person at any time**.
+
+The lesson ties disclosure to the **EU AI Act** and the person option to **DemoStore's own rule**. These are distinct rationales.
+
+**Potential implementation technique (illustrative):** Generate the notice deterministically when a session is created, so it does not rely solely on the model remembering disclosure instructions.
+
+### Requirement 3 — One Pydantic intent schema
+**Pydantic** is a Python library that defines and validates data shapes with Python classes.
+
+The team needs **one class** used in **three different places**:
+1. Claude's structured response.
+2. The backend's return data to the React widget.
+3. The FastAPI-generated documentation page.
+
+The additional field is **language**.
+
+Why not two copies? Suppose the model schema includes `language` but a separate response validator does not. The model may send an answer that the service rejects. The speaker warns this inconsistency might make **every chat fail**.
+
+The correct solution is to derive all three consumers from one authoritative definition.
+
+### Requirement 4 — Chat widget
+Frontend technology:
+- **React**, for web UI components.
+- **TypeScript**, JavaScript with types.
+
+Required display:
+- Customer and assistant messages.
+- A **typing indicator** while the reply is coming.
+- An **always-visible “Talk to a person” button**.
+
+Why always visible? Customers often worry that a chatbot is a barrier preventing them from reaching a human. Hiding the option undermines trust.
+
+**Clarify stage:** The button does **not** implement a real ServiceNow case handoff in this first build; that comes later.
+
+### Requirement 5 — Actual Claude integration tests
+The team wants tests that make **real Claude API calls**, not solely mocks.
+
+They are explicitly labeled **live**, and the fast suite **skips** them. They should run **only when explicitly requested**, because real model calls consume money and time and may be less deterministic.
+
+Unit tests and real integration tests serve different needs:
+| Test | What it verifies | Run cadence |
+|---|---|---|
+| Fast unit tests | Local code behavior and schema checks | Frequent |
+| Live Claude integration | Real model API responds in expected shape | Explicit/on demand |
+| Widget build check | Frontend compiles/type-checks | After frontend changes |
+| Browser interaction tests | Actual click and message behavior | Not included in first widget plan |
+
+The exact test framework and commands are not prescribed by this transcript.
+
+## Part C — Two non-negotiable limits
+
+**Limit 1: every Claude call passes through `llm.py`.**
+
+This avoids multiple independently maintained API adapters and centralizes provider configuration.
+
+**Limit 2: sessions live only within the running service.**
+
+No database; a **restart loses sessions**. Do not represent that as production-ready persistence.
+
+## Part D — The project rule files
+
+Root `CLAUDE.md` states:
+- How to run **fast tests**.
+- The model adapter rule: every model call through `llm.py`.
+
+The **settings file** is an enforced permissions layer:
+- Tests may run without repeated approval.
+- Approved Git commands may run.
+- Installing a new package asks the engineer first.
+- The file containing secrets is blocked.
+
+This echoes the earlier coding-agent lesson: **instructions are guidance, settings are controls**.
+
+## Part E — Plan Mode, before touching files
+
+The engineer starts Claude Code in **Plan Mode**. It can read and ask but **changes nothing**.
+
+The planning request says:
+- Read the brief.
+- Read rules and requirements.
+- Inspect current code.
+- Propose **small implementation phases**.
+- End every phase with a **check the human can run**.
+- Ask about unclear details.
+- When approved, save the plan to a file.
+- Implement **phase one only**, then **stop**.
+
+A good plan is not simply a list of features; each step should create independently reviewable evidence.
+
+The model discovers **there are no tests in the repository yet**. This matters because the first phase must establish or use tests, not claim unseen coverage.
+
+## Part F — Question 1: should sessions duplicate the order number?
+
+The agent wants to know how an order number stays accessible across turns.
+
+**Agent recommendation:** Store the order number separately in the session.
+
+**Human decision:** Keep **conversation history only**.
+
+Reason: the order number is already in the customer's conversation. A duplicate field introduces state synchronization work.
+
+Illustrative contrast:
+```python
+# Rejected extra state idea
+session = {"history": [...], "order_number": "ORDER-123"}
+
+# Approved simpler structural choice
+session = {"history": [...]}
+```
+
+The *actual transcript* does not provide the session representation or imply that every multi-order situation is already solved. It simply records the design choice.
+
+**Engineering trade-off:** Later testing must ensure the assistant does not confuse an old order number with a newer one in a long conversation.
+
+## Part G — Question 2: backwards-compatible history parameter
+
+The agent detects `agent.answer` **currently accepts no conversation history**.
+
+It asks whether it can add an **optional** history argument.
+
+The engineer answers **yes**, because existing calls should still work.
+
+Illustrative:
+```python
+def answer(message, history=None):
+    if history is None:
+        history = []
+    # existing agent flow continues here
+```
+
+Existing usage remains valid:
+```python
+answer("Where is my order?")
+```
+
+New usage can pass context:
+```python
+answer("Any update?", history=previous_messages)
+```
+
+**Why optional?** It introduces capability while preserving backward compatibility.
+
+## Part H — Question 3: extent of widget checks
+
+The model asks how much frontend test machinery it may add.
+
+Human answer: **A build check only**, with **no extra testing tools**.
+
+This is scope control, not an assertion that a build check proves every UI behavior.
+
+### What a frontend build can catch
+- Syntax errors.
+- TypeScript type errors.
+- Missing imports and some configuration problems.
+
+### What it cannot reliably prove
+- Human-support button always visible under every UI state.
+- Typing indicator appears and disappears at the right time.
+- Network failures produce understandable messages.
+- Accessibility and real browser interaction.
+
+Those deeper checks may be appropriate in later stages.
+
+## Part I — Three integration gaps discovered from the code
+
+Before writing anything, the agent reports:
+1. The **agent loop accepts no history**.
+2. Intent schema is **a dictionary written by hand**.
+3. The **adapter accepts the schema dictionary**.
+
+These are different sorts of gaps:
+- **History** is a functional capability gap.
+- **Handwritten dictionary** is a maintainability/schema consistency gap.
+- **Adapter's interface** is a compatibility question: will it need changes?
+
+This information helps shape the seven-phase plan.
+
+## Part J — The seven phases in exact sequence
+
+| Number | Phase | Transcript detail | Stage of work shown |
+|---|---|---|---|
+| 1 | Shared intent schema | Make intent one Pydantic class | **Completed** |
+| 2 | Conversation history | Pass history to agent | Planned |
+| 3 | Chat service | Build FastAPI service | Planned |
+| 4 | Live tests | Add tests that really call Claude | Planned |
+| 5 | Widget | Begin React widget implementation | Planned |
+| 6 | Widget | Continue/complete widget | Planned |
+| 7 | Running guide | Short instructions to run whole product | Planned |
+
+The lesson explicitly says **each phase ends in a runnable check**. It **does not** provide exact acceptance commands for phases two through seven; invented commands should be labeled as examples.
+
+## Part K — Plan approval and Auto Mode
+
+The engineer reads and **approves** the proposed plan.
+
+Only now does Claude Code leave the read-only planning step and enter **Auto Mode**. It can **edit files** and run **allowed commands** without asking for permission at every routine step.
+
+The user has not granted unlimited access: package installs still ask, and secrets remain blocked.
+
+**Instruction:** **Implement phase one only. Stop after it.** Auto Mode is constrained by phase scope as well as tool permissions.
+
+## Part L — Reported phase-one result
+
+Claude Code reports:
+- Phase one is done.
+- Fast tests pass.
+- The intent is a **single Pydantic class**.
+- The new **language** field exists.
+- Schema supplied to Claude is **generated from the class**.
+
+Then it explicitly explains what **it did not do**.
+
+### The unexpected adapter decision
+The original plan said the `llm.py` adapter might need changes. But `IntentResult.model_json_schema()` (illustrative Pydantic mechanism) yields a dictionary in the format the adapter already accepts.
+
+Therefore **`llm.py` is left unchanged**.
+
+This is a good example of implementing the *objective* instead of blindly executing unnecessary modifications from an initial plan.
+
+## Part M — The report is text, not proof
+
+The narrator's exact conceptual point is:
+
+> A report is only text, so we check for ourselves.
+
+The human does three substantive verification actions.
+
+### 1. Run fast tests independently
+**Result: four tests pass.**
+
+This confirms four executed test cases, not that the complete chat platform is ready.
+
+### 2. Read `intent.py`
+The Pydantic class contains exactly these described fields:
+- **`summary`**
+- **`intent`**, constrained to **six allowed values**
+- **`order_number`**
+- **`needs_human`**
+- **`language`**, newly added
+
+**Do not fabricate the six values.** The provided transcript says there are six but does not list them.
+
+### 3. Confirm schema generation
+The JSON Schema Claude must follow comes **from the one Pydantic class**, avoiding a separately maintained duplicate schema.
+
+### 4. Commit phase one
+After the checks, the engineer makes a **Git commit**. The commit marks a known-good checkpoint.
+
+The speaker says the remaining phases use **one fresh session each, followed by tests and a commit**.
+
+## Part N — A careful illustrative Python schema
+
+```python
+from pydantic import BaseModel, Field
+
+class IntentResult(BaseModel):
+    summary: str
+    intent: str  # In the actual lesson, exactly six allowed choices.
+    order_number: str | None = None
+    needs_human: bool
+    language: str = Field(description="Language of the message")
+
+schema_for_claude = IntentResult.model_json_schema()
+```
+
+**Why is this labeled illustrative?** The lesson does not provide the final source text, exact constrained-value type or validators. The principles are one class, five fields, six intent choices and generated schema.
+
+### An example of schema drift
+Suppose handwritten Claude JSON requires `language`, but the backend response model omits it. One part accepts fields that another rejects. This could break request processing on every chat.
+
+By reusing one Pydantic definition, a schema update can be propagated deliberately through model output, service response and generated docs.
+
+## Part O — A careful illustrative FastAPI service shape
+
+The API itself is **not implemented in the lesson yet**; it is phase three. To understand the requested contract, imagine:
+
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class ChatRequest(BaseModel):
+    message: str
+    session_id: str | None = None
+
+class ChatResponse(BaseModel):
+    reply: str
+    intent: IntentResult
+    session_id: str
+
+# Actual implementation must wire sessions and authorized agent calls.
+```
+
+This example is educational, **not a claim that Claude Code created this code during phase one**.
+
+## Part P — A careful illustrative session flow
+
+```text
+Customer opens chat
+  ↓
+Widget sends first message (no session ID yet)
+  ↓
+FastAPI creates a new in-memory session
+  ↓
+Assistant sends AI notice / processes the message
+  ↓
+FastAPI returns response + session ID
+  ↓
+Widget stores that ID locally for subsequent requests
+  ↓
+Next message carries the ID
+  ↓
+FastAPI loads prior history
+  ↓
+Agent processes the message with optional history
+```
+
+The route name, exact identity implementation and UI storage details are **design examples**. The transcript's requirements are the **session ID**, **in-memory sessions**, and **optional history parameter**.
+
+## Part Q — Human access and nonfunctional product requirements
+
+The "Talk to a person" button is **always visible** because of a **specific customer fear** that bots block access to humans. A permanently accessible path is part of trustworthy UX.
+
+The **typing indicator** addresses a separate problem: LLM replies can take time, and users need to see that a reply is pending.
+
+The **AI notice** addresses transparency.
+
+These are three separate product requirements:
+1. Know **who/what** you're talking to.
+2. Know that the app **is responding**.
+3. Know how to **request a person**.
+
+None of those requirements should be treated as optional visual polish.
+
+## Part R — What has been delivered versus what is merely planned?
+
+| Capability | At the end of the supplied transcript |
+|---|---|
+| Existing Claude adapter | Already working |
+| Existing order-tool agent loop | Already working |
+| One shared Pydantic intent class | **Phase one completed** |
+| New language field | **Completed** |
+| Generated Claude schema | **Completed** |
+| Fast tests | **Four passed** |
+| History-aware agent function | Next phase |
+| FastAPI chat backend | Phase three |
+| Live Claude tests | Phase four |
+| React/TypeScript widget | Phases five and six |
+| Setup and run guide | Phase seven |
+| Real customer-facing handoff | Still deferred from earlier brief |
+| One-time-code sender | Still deferred from earlier brief |
+
+The full chat site should not be described as built during the lesson. The exercise shows **planning and first-phase implementation**, not seven completed phases.
+
+## Part S — AI SDLC connections
+
+### Why inspect code before planning?
+Avoid breaking existing adapters and recognize where new requirements fit.
+
+### Why ask questions first?
+The session strategy and compatibility policy are legitimate design decisions, not things the agent should silently invent.
+
+### Why insist on a runnable check per phase?
+Completion should be observable.
+
+### Why check the code after the agent reports success?
+A language-model assertion of success is not evidence. Tests and diffs are evidence.
+
+### Why commit?
+A small accepted checkpoint lowers the cost of recovery.
+
+### Why fresh sessions?
+Short contexts reduce irrelevant earlier attempts; plans and rules remain in the repository.
+
+### Why didn't the adapter change?
+Its existing interface already met the new requirement: **working code can remain untouched**.
+
+## Part T — Interview question bank with detailed answers
+
+**Q1. What are the existing programs?** The Claude adapter, intent extraction/validation and agent loop with order tools.
+
+**Q2. What is the business deliverable?** A website chat window and backend service talking to the existing assistant.
+
+**Q3. Who writes the product code?** The coding agent, subject to human planning, steering and verification.
+
+**Q4. What does the FastAPI response include?** Reply, intent and session ID.
+
+**Q5. Why use a session ID?** To associate turns with one conversation.
+
+**Q6. Why one Pydantic class?** To keep model output, widget API response and API docs consistent.
+
+**Q7. Which new field was added?** Language.
+
+**Q8. What happens if duplicated schemas drift?** The backend may reject otherwise valid responses, potentially breaking chats.
+
+**Q9. What technologies implement the widget?** React and TypeScript.
+
+**Q10. What visual feedback is required?** A typing indicator.
+
+**Q11. Why always show a human-support button?** Customers fear automation prevents access to humans.
+
+**Q12. Are live model tests part of the fast suite?** No, marked live and run explicitly.
+
+**Q13. Where must every Claude call go?** Through `llm.py`.
+
+**Q14. Where is conversation state held?** In the running service's memory.
+
+**Q15. What happens on restart?** Session history is lost.
+
+**Q16. What belongs in `CLAUDE.md`?** Fast test instructions and adapter rule.
+
+**Q17. What may run automatically?** Approved tests and Git commands.
+
+**Q18. What requires permission?** Installing a package.
+
+**Q19. What is forbidden?** Reading the secrets file.
+
+**Q20. What is Plan Mode's guarantee in this lesson?** Read/ask with no code changes.
+
+**Q21. What did the agent discover about tests?** None existed yet.
+
+**Q22. What were the three clarifying questions?** Session order-number representation, optional history argument and widget testing depth.
+
+**Q23. Which session representation was chosen?** History only.
+
+**Q24. Why add optional history?** Preserve existing callers.
+
+**Q25. How far did widget testing go?** Build check only, without extra test tools.
+
+**Q26. What gaps were identified?** No agent history, handwritten intent schema, adapter accepts dictionary.
+
+**Q27. How many phases?** Seven.
+
+**Q28. What does phase one do?** One Pydantic intent class with generated schema and language.
+
+**Q29. What does phase two do?** Add conversation history.
+
+**Q30. What do phases three and four do?** Build FastAPI service, then live Claude tests.
+
+**Q31. What do phases five, six and seven do?** Widget, widget and short run guide.
+
+**Q32. When can Auto Mode write code?** After the plan is approved.
+
+**Q33. Why didn't `llm.py` change?** Generated schema already fit its interface.
+
+**Q34. What did the developer independently run?** Fast tests; four passed.
+
+**Q35. Which file was inspected?** `intent.py`.
+
+**Q36. What fields are in the class?** Summary, intent, order number, human-required flag, language.
+
+**Q37. How many allowed intent values?** Six, not enumerated in the transcript.
+
+**Q38. What happened after review?** A Git commit of phase one.
+
+**Q39. What happens for later phases?** Fresh agent session, tests, review and commit.
+
+**Q40. What is the practical rule?** Short brief plus rules; inspect questions and plan before writing code.
+
+## Part U — Complete revision checklist
+
+- [ ] I know the **three existing modules**.
+- [ ] I can explain **product code** versus individual scripts.
+- [ ] I know all **five brief parts** in order.
+- [ ] I know the three **API response items**.
+- [ ] I can explain **session ID ≠ identity verification**.
+- [ ] I remember the first message **AI disclosure**.
+- [ ] I can separate **EU transparency** from **DemoStore's human-access policy**.
+- [ ] I know the **three consumers of the Pydantic model**.
+- [ ] I know `language` is newly added.
+- [ ] I can explain duplicate-schema drift.
+- [ ] I know **React** and **TypeScript**.
+- [ ] I know the **typing indicator**.
+- [ ] I know the human button **never hides**.
+- [ ] I know **live tests are opt-in**.
+- [ ] I know all model calls go through **`llm.py`**.
+- [ ] I know sessions are **in-memory only**.
+- [ ] I know what **`CLAUDE.md`** contains.
+- [ ] I can recall settings: **allow tests/Git, ask package installs, deny secrets**.
+- [ ] I know **Plan Mode changes nothing**.
+- [ ] I remember the repository **had no tests**.
+- [ ] I can state the **three clarifying questions and choices**.
+- [ ] I can list **all seven phases**.
+- [ ] I remember **three code gaps**.
+- [ ] I know only **phase one** was implemented.
+- [ ] I can name all **five class fields**.
+- [ ] I remember **six intent values, names not given**.
+- [ ] I can explain **why `llm.py` stayed unchanged**.
+- [ ] I remember **four passing fast tests**.
+- [ ] I know the engineer **opened `intent.py`** themselves.
+- [ ] I know the engineer **committed phase one**.
+- [ ] I know later phases use **fresh sessions, tests and commits**.
+
+**Course exercise:** Write a five-line brief for one feature of your own. Let Claude Code plan it in Plan Mode and count the questions it asks before it writes any code.
