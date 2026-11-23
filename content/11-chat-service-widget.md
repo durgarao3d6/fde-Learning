@@ -933,3 +933,270 @@ Its existing interface already met the new requirement: **working code can remai
 - [ ] I know later phases use **fresh sessions, tests and commits**.
 
 **Course exercise:** Write a five-line brief for one feature of your own. Let Claude Code plan it in Plan Mode and count the questions it asks before it writes any code.
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Open each question after attempting your own answer. These questions check exact transcript decisions as well as the engineering reasoning behind them.
+
+<details>
+<summary><strong>1. Which small programs already work?</strong></summary>
+
+The llm.py Claude adapter, intent.py check and the agent loop with order tools.
+
+</details>
+
+<details>
+<summary><strong>2. What new product is required?</strong></summary>
+
+A DemoStore website chat window and a backend service connected to the existing assistant.
+
+</details>
+
+<details>
+<summary><strong>3. What is the first point of the five-part brief?</strong></summary>
+
+A FastAPI chat service that accepts messages and returns a reply, intent and session ID.
+
+</details>
+
+<details>
+<summary><strong>4. Why is a session ID included?</strong></summary>
+
+To associate multiple messages with the same conversation's history, not to prove customer identity.
+
+</details>
+
+<details>
+<summary><strong>5. What is the second brief point?</strong></summary>
+
+The first reply discloses the AI and says the customer can request a person at any time.
+
+</details>
+
+<details>
+<summary><strong>6. Which requirement is tied to EU AI Act transparency?</strong></summary>
+
+Informing customers when they are talking to an AI. The person option is DemoStore's additional requirement.
+
+</details>
+
+<details>
+<summary><strong>7. What is the third brief point?</strong></summary>
+
+One Pydantic class defining the intent data shape across model output, service response and generated API documentation.
+
+</details>
+
+<details>
+<summary><strong>8. Which new intent field is added?</strong></summary>
+
+Language of the message, for later human handoffs.
+
+</details>
+
+<details>
+<summary><strong>9. Why is maintaining two schema copies dangerous?</strong></summary>
+
+A new field could be added to one but omitted from another, creating validation mismatches and broken chats.
+
+</details>
+
+<details>
+<summary><strong>10. What is the fourth brief point?</strong></summary>
+
+A React and TypeScript chat widget displaying messages, typing feedback and a permanently visible Talk to a person button.
+
+</details>
+
+<details>
+<summary><strong>11. Why must the person button remain visible?</strong></summary>
+
+Customers fear a bot may prevent access to human support.
+
+</details>
+
+<details>
+<summary><strong>12. What is the fifth brief point?</strong></summary>
+
+Opt-in tests that really call Claude, marked live and skipped by routine fast tests.
+
+</details>
+
+<details>
+<summary><strong>13. What are the two technical limits?</strong></summary>
+
+All Claude calls go through llm.py, and sessions exist only in running service memory; restart loses them.
+
+</details>
+
+<details>
+<summary><strong>14. What is in CLAUDE.md?</strong></summary>
+
+The fast-test command and the rule that every model call uses the central llm.py adapter.
+
+</details>
+
+<details>
+<summary><strong>15. Which permissions are automatic, require approval or denied?</strong></summary>
+
+Approved tests and Git commands are allowed; package installs ask first; secrets-file access is denied.
+
+</details>
+
+<details>
+<summary><strong>16. What does the planning prompt demand?</strong></summary>
+
+Inspect brief, rules, requirements and existing code; ask clarifications; plan small phases with executable checks; after approval save plan, do phase one only and stop.
+
+</details>
+
+<details>
+<summary><strong>17. What surprise does Claude Code find about tests?</strong></summary>
+
+No tests exist yet in the repository.
+
+</details>
+
+<details>
+<summary><strong>18. What are the three questions Claude Code asks?</strong></summary>
+
+Whether to separately store order number; whether to add optional history to agent.answer; and whether the widget needs more testing than a build check.
+
+</details>
+
+<details>
+<summary><strong>19. What session-state decision did the engineer make?</strong></summary>
+
+Keep order number in conversation history instead of an extra session field.
+
+</details>
+
+<details>
+<summary><strong>20. How is agent.answer extended without breaking current callers?</strong></summary>
+
+Add history as an optional argument.
+
+</details>
+
+<details>
+<summary><strong>21. How far do widget checks go in the plan?</strong></summary>
+
+A build check only, with no extra frontend test tooling at this stage.
+
+</details>
+
+<details>
+<summary><strong>22. What three code gaps were discovered?</strong></summary>
+
+The agent loop takes no history, the intent schema is a handwritten dictionary, and the LLM adapter accepts that dictionary.
+
+</details>
+
+<details>
+<summary><strong>23. List the seven phases in order.</strong></summary>
+
+1 shared Pydantic intent class; 2 history; 3 FastAPI service; 4 live tests; 5–6 widget; 7 run guide.
+
+</details>
+
+<details>
+<summary><strong>24. What changes when Auto Mode begins?</strong></summary>
+
+With plan approved, Claude Code can edit files and run allowed commands; it still must stop after phase one and honor permission restrictions.
+
+</details>
+
+<details>
+<summary><strong>25. What does phase one produce?</strong></summary>
+
+One Pydantic intent class with language, and the structured schema supplied to Claude generated from that class.
+
+</details>
+
+<details>
+<summary><strong>26. What five fields are in the class?</strong></summary>
+
+summary, intent (six allowed values), order_number, needs_human and language.
+
+</details>
+
+<details>
+<summary><strong>27. Does the transcript list all six intent values?</strong></summary>
+
+No. It states there are six but does not enumerate them; avoid inventing the labels.
+
+</details>
+
+<details>
+<summary><strong>28. Why did llm.py remain unchanged?</strong></summary>
+
+The schema generated from Pydantic already fit the adapter's existing dictionary interface.
+
+</details>
+
+<details>
+<summary><strong>29. Why must the engineer verify despite the agent's report?</strong></summary>
+
+'All tests pass' is merely text until the human actually runs checks and examines the changed source.
+
+</details>
+
+<details>
+<summary><strong>30. How many tests passed independently after phase one?</strong></summary>
+
+Four fast tests.
+
+</details>
+
+<details>
+<summary><strong>31. Which file did the engineer open to inspect the class?</strong></summary>
+
+intent.py.
+
+</details>
+
+<details>
+<summary><strong>32. What happened after successful code review and tests?</strong></summary>
+
+Phase one was committed to Git.
+
+</details>
+
+<details>
+<summary><strong>33. What is the process for remaining phases?</strong></summary>
+
+A fresh coding-agent session for each phase, then the engineer's independent tests and a Git commit.
+
+</details>
+
+<details>
+<summary><strong>34. Which parts of the product were not yet built at the end?</strong></summary>
+
+Agent history, FastAPI service, live tests, React widget and run guide remained planned for later phases.
+
+</details>
+
+<details>
+<summary><strong>35. What practice task is assigned?</strong></summary>
+
+Write a five-line brief for a feature, ask Claude Code to plan it in Plan Mode and count the clarifying questions before code edits.
+
+</details>
+
+<details>
+<summary><strong>36. What is the practical rule?</strong></summary>
+
+Give the agent a short brief and your rules; read its questions and plan before letting it write code.
+
+</details>
+
+## Practice routine
+
+- Explain the lesson's business need without reading the notes.
+- Reproduce the questions, answers, numbers and implementation order.
+- Compare what the coding agent suggested against what the engineer actually approved.
+- Identify which behavior was implemented versus deferred.
+- Deliver a two-minute FDE interview answer and defend one security decision.
