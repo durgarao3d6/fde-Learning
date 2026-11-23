@@ -178,3 +178,84 @@ A likely issue was the **narrow escalation prompt**. The course treats **Haiku**
 - [ ] Explain why `summary` replaced `reasoning`.
 - [ ] Keep pricing explicitly **illustrative/historical**.
 - [ ] State why Haiku was a **tentative**, not final, choice.
+
+---
+
+# Additional Line-by-Line Teaching Notes and Worked Examples
+
+## From business objective to measurable model choice
+The exercise does not ask, “Which Claude model is smartest?” It asks which candidate is an appropriate and economical **classifier for DemoStore support routing**. That matters because model-selection work without a well-defined operational action can optimize the wrong metric. The support team, not a public leaderboard, defines what a correct response means.
+
+**Marco Rossi** supplies the labeled material because he and the support agents know what actual support outcomes should be. **Lena Brandt** sponsors the work and needs a defensible decision. The distinction between **subject-matter owner**, **business sponsor** and **engineer** is important for FDE interviews.
+
+### A reproducible grading record (illustrative)
+```json
+{
+  "case_id": 17,
+  "ground_truth": {
+    "intent": "order_status",
+    "next_action": "human_handoff",
+    "needs_human": true
+  },
+  "prediction": {
+    "intent": "order_status",
+    "next_action": "lookup",
+    "needs_human": false
+  },
+  "grade": {
+    "intent_correct": true,
+    "action_correct": false,
+    "missed_handoff": true
+  }
+}
+```
+
+Even though the **intent** is correct, the **action is wrong**. This is the key reason not to score an assistant only on intent classification.
+
+The JSON keys and values are illustrative, not a claim that the course's underlying files use those exact names.
+
+## False-negative versus false-positive escalation
+For the human-handoff flag:
+
+| Ground truth | Prediction | Interpretation |
+|---|---|---|
+| Human required | Human required | Correct escalation |
+| Human required | No human | **Missed handoff** — safety/quality concern |
+| No human required | Human required | Unnecessary handoff — workload concern |
+| No human required | No human | Correct automation |
+
+The lesson's striking result—**around half of 21 required handoffs missed by each candidate across runs**—cannot be hidden behind good performance on simpler tracking chats.
+
+For improvement, inspect cases where models consistently decline to escalate; ask Marco whether the trigger rules are under-specified. Do not immediately buy the most expensive model.
+
+## Reproducibility notes for evaluation code
+**`llm.py`** isolates the Anthropic request. **`intent.py`** defines the extraction task and output shape. **`compare.py`** orchestrates models, cases and repetitions, then computes metrics. This modular organization makes it easier to swap prompts or models without rewriting data loading and scoring.
+
+The maximum thread workers value is **20**, not 360. The total work is 360 requests; the concurrency setting bounds how many run at once.
+
+Useful execution records (additional best practice) include model identifier, prompt version, case ID, run ID, elapsed time, token counts, output schema validity and the resulting judgment. Without these, a headline percentage may be impossible to reproduce.
+
+## Cost is an outcome, not just a token rate
+A cheap model that escalates most chats may have higher **all-in cost** than its API bill suggests. A costly model that handles more cases safely may still make economic sense, but it must **actually demonstrate** improved behavior.
+
+Think in three layers:
+1. **Inference price:** tokens and API requests.
+2. **Support operations:** human escalations, repeat contacts, rework.
+3. **Risk exposure:** missed mandatory handoff, wrong promises and privacy errors.
+
+In the provided lesson, the low-price Haiku choice is **provisional** precisely because behavior needs improvement.
+
+## Distinguish a development target from a release gate
+A later prototype lesson uses the illustrative criterion **36/40 correct actions with no missed mandatory handoffs**. That is a separate stage-specific example, not a claim that the first model-selection run passed it. Keeping those lessons separate prevents accidental overstatement.
+
+## Answering a challenge question
+**“Why run 360 calls if you have only 40 cases?”**
+
+Because the experiment compares **three models** and also checks **within-model stability through three repeated executions**. Forty independent cases alone cannot expose inconsistent outcomes when the model is run multiple times on the same chat.
+
+**“Why did the word `reasoning` matter?”**
+
+Because a schema field name is part of the model instruction. The lesson found that `summary` better signals a short shareable explanation, whereas `reasoning` sometimes conflicted with how Opus treated private reasoning.
+
+## Final memory anchors
+**40 chats; 21 handoff cases; Haiku/Sonnet/Opus; three repeats; 360 calls; 20 workers; rename `reasoning` to `summary`; approximately half of required handoffs missed; improve prompting before accepting Haiku.**
