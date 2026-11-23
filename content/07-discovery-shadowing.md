@@ -266,3 +266,145 @@ The agent can correct a misunderstanding while the event is fresh. Waiting sever
 
 ## The bridge to the coding-agent interview
 A later lesson says each user story points to a **specific discovery-note line**. Good notes make the coding agent's recommended answers defensible. Poor notes make the agent guess.
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. What are the four discovery steps?</strong></summary>
+
+Prepare; ask open questions and listen; shadow real customer cases; record precise evidence and follow up.
+
+</details>
+
+<details>
+<summary><strong>2. Who should join the first frontline session?</strong></summary>
+
+Marco Rossi and two or three support agents.
+
+</details>
+
+<details>
+<summary><strong>3. Why keep sponsor Lena Brandt out of that session?</strong></summary>
+
+To reduce social pressure and encourage honest discussion of workarounds or problems.
+
+</details>
+
+<details>
+<summary><strong>4. What materials are reviewed before the meeting?</strong></summary>
+
+Confluence policy documents, public help pages, earlier support chats and the known workflow.
+
+</details>
+
+<details>
+<summary><strong>5. What example time allocation is given?</strong></summary>
+
+An illustrative 90 minutes: 30 minutes interviewing and 60 minutes observing.
+
+</details>
+
+<details>
+<summary><strong>6. What's a better question than 'Would a chatbot help?'</strong></summary>
+
+'Walk me through the last return chat you handled'—a concrete recent event.
+
+</details>
+
+<details>
+<summary><strong>7. How should an interviewer react to a surprising explanation?</strong></summary>
+
+Listen, pause, paraphrase what they heard and ask to see the actual steps.
+
+</details>
+
+<details>
+<summary><strong>8. What is the demonstrated workflow?</strong></summary>
+
+ServiceNow → copy order number → Ledgerline → nightly carrier CSV → live carrier site → saved reply → manual date edit.
+
+</details>
+
+<details>
+<summary><strong>9. What did the timing comparison reveal?</strong></summary>
+
+The agent estimated about two minutes; direct observation suggested four minutes, illustrative.
+
+</details>
+
+<details>
+<summary><strong>10. Why was the morning carrier file distrusted?</strong></summary>
+
+An agent said 'I never trust the carrier file in the morning', suggesting freshness concerns that need investigation.
+
+</details>
+
+<details>
+<summary><strong>11. What was unusual about German returns?</strong></summary>
+
+An agent used a personal spreadsheet with market return windows instead of relying on Confluence.
+
+</details>
+
+<details>
+<summary><strong>12. Should the spreadsheet become the source of policy truth immediately?</strong></summary>
+
+No. Validate it with the appropriate policy owner; workarounds may contain useful knowledge but also errors.
+
+</details>
+
+<details>
+<summary><strong>13. What should observation notes contain?</strong></summary>
+
+Steps and systems, timings, difficulties and workarounds, and short verbatim quotes without private customer data.
+
+</details>
+
+<details>
+<summary><strong>14. Why separate observation from hypothesis?</strong></summary>
+
+A behavior you watched does not by itself prove its root cause or justify a particular technical solution.
+
+</details>
+
+<details>
+<summary><strong>15. What privacy role is involved?</strong></summary>
+
+Sofia Lindqvist oversees approved handling of real personal data.
+
+</details>
+
+<details>
+<summary><strong>16. What should happen the same day?</strong></summary>
+
+Send Marco a summary so factual misunderstandings can be corrected promptly.
+
+</details>
+
+<details>
+<summary><strong>17. How are the notes used in later requirements?</strong></summary>
+
+Every user story points to the relevant line of discovery evidence.
+
+</details>
+
+<details>
+<summary><strong>18. What is the central quote?</strong></summary>
+
+Do not stop at asking how the work is done. Ask to see it.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
