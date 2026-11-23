@@ -240,3 +240,124 @@ No single layer should be presented as a complete safety solution.
 
 ## Memory anchors
 **Verified identity from session → per-tool ownership → generic missing/foreign error → refund drafts only → ServiceNow human approval → 10-round cap.**
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. What is an agent harness?</strong></summary>
+
+The application layer that controls available tools, identity, authorization, loop limits, errors and human fallback around a tool-using model.
+
+</details>
+
+<details>
+<summary><strong>2. What is DemoStore's tool-round limit?</strong></summary>
+
+Ten rounds; exceeding the limit stops the agent and routes the case toward a ServiceNow human handoff.
+
+</details>
+
+<details>
+<summary><strong>3. Why is the round limit in code?</strong></summary>
+
+A model instruction like 'stop after ten calls' is not an enforceable guarantee; application code must count rounds.
+
+</details>
+
+<details>
+<summary><strong>4. Why must find_order ignore model-supplied customer IDs?</strong></summary>
+
+An LLM might be manipulated into naming another customer. The verified identity must come from trusted session state.
+
+</details>
+
+<details>
+<summary><strong>5. Which order records can a verified customer read?</strong></summary>
+
+Only their own, as established by object-level ownership checks inside the tool.
+
+</details>
+
+<details>
+<summary><strong>6. How should the system respond to a foreign order number?</strong></summary>
+
+The same generic not-found result it would return for a nonexistent order, avoiding an existence leak.
+
+</details>
+
+<details>
+<summary><strong>7. Why also protect delivery_status?</strong></summary>
+
+An attacker may guess a tracking number and bypass the ownership check on find_order if the carrier tool is unguarded.
+
+</details>
+
+<details>
+<summary><strong>8. What should happen for an unverified customer?</strong></summary>
+
+The system must not return protected order data, even when the model asks.
+
+</details>
+
+<details>
+<summary><strong>9. Can the assistant execute refunds?</strong></summary>
+
+No. It may draft a refund proposal to a holding table for human approval through ServiceNow.
+
+</details>
+
+<details>
+<summary><strong>10. What is a high-impact side effect?</strong></summary>
+
+A change such as moving money or updating a sensitive system. Such actions need explicit authorization outside the model.
+
+</details>
+
+<details>
+<summary><strong>11. What is the difference between prompt instruction and hard guardrail?</strong></summary>
+
+A prompt guides behavior; an allowlisted tool, code-level authorization or permission setting actually constrains what can happen.
+
+</details>
+
+<details>
+<summary><strong>12. Does a correct tool choice prove safety?</strong></summary>
+
+No. Even a correctly selected tool must validate arguments, identity and permissions before executing.
+
+</details>
+
+<details>
+<summary><strong>13. Why can the not-found error still be logged internally?</strong></summary>
+
+Internal protected logs may capture diagnostic context while public responses avoid revealing record existence. Logging itself must follow privacy policy.
+
+</details>
+
+<details>
+<summary><strong>14. What tests would prove authorization?</strong></summary>
+
+Verify own-order access, unverified denial, foreign-order equivalence to unknown, tracking ownership, no refund execution and ten-round termination.
+
+</details>
+
+<details>
+<summary><strong>15. What is the key quote?</strong></summary>
+
+Every tool checks before it acts.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
