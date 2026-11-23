@@ -209,3 +209,60 @@ Example (illustrative):
 - [ ] Verbatim quote about **morning carrier file**.
 - [ ] Same-day summary to **Marco**.
 - [ ] Privacy owner **Sofia**.
+
+---
+
+# Expanded Observation Template and Case Analysis
+
+## One sample observation record
+The following is a template inspired by the transcript's workflow, not a real customer record.
+
+| Field | Example |
+|---|---|
+| Case type | Delayed parcel inquiry |
+| Frontline role | Support agent |
+| Starting system | ServiceNow |
+| Order source | Ledgerline |
+| Carrier source | Nightly CSV and direct carrier website |
+| Human workaround | Copy tracking number, cross-check update, edit template |
+| Estimate versus observation | 2 minutes estimated, 4 minutes observed (illustrative) |
+| Confidence | Workflow observed; root cause requires confirmation |
+| Next question | Can the carrier data be updated more frequently? |
+
+## Why every detail matters
+The **manual date edit** is not merely a nuisance: if a template reuses an outdated delivery date, the assistant could make incorrect delivery promises.
+
+The **carrier website cross-check** suggests that the nightly CSV may not be sufficiently fresh for some customer requests. However, we should verify how often this occurs before buying a more expensive real-time integration.
+
+The **personal German returns spreadsheet** may contain important tacit knowledge. It might also be wrong or old. The FDE must have the correct owner validate it before treating its contents as a business rule.
+
+## Meeting behavior: examples
+**Open-ended prompt:** “Tell me about the last support case that required more than one system.”
+
+**Follow-up:** “Could you show me the exact next click?”
+
+**Time probe:** “Let's measure that part instead of estimating.”
+
+**Workaround probe:** “Where do you keep the numbers you actually trust?”
+
+**Reflection:** “I heard that the published policy wasn't what you consulted. Is that correct?”
+
+**Summary to Marco:** “Here's what was observed, what is hypothesized and what we still need to confirm.”
+
+## Four-column notes can prevent premature requirements
+| Observed | Hypothesis | Possible opportunity | Validation owner |
+|---|---|---|---|
+| Agent checked carrier site after CSV | Nightly feed may be stale | Improve status freshness | Marco / Ravi |
+| German agent consulted personal sheet | Confluence return policy may lag practice | Central approved rules | Marco / policy owner |
+| Template date edited manually | Current workflow creates avoidable mistakes | Populate verified dates automatically | Support + engineering |
+
+The “possible opportunity” column is explicitly **not yet an approved requirement**.
+
+## Privacy handling
+Transcripts, order IDs, emails and real customer messages may contain personal information. The FDE should use permitted storage and redacted examples, work within Sofia's approvals, and avoid pasting sensitive records into general-purpose notes or unapproved model contexts.
+
+## Why send notes the same day?
+The agent can correct a misunderstanding while the event is fresh. Waiting several days increases the chance the team will convert an inaccurate observation into an accepted requirement.
+
+## The bridge to the coding-agent interview
+A later lesson says each user story points to a **specific discovery-note line**. Good notes make the coding agent's recommended answers defensible. Poor notes make the agent guess.
