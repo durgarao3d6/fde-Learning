@@ -250,3 +250,124 @@ This distinction connects to the later “When Not to Use AI” lesson: tool sch
 3. How does the model receive an actual lookup result? **Application sends a tool-result block in subsequent context.**
 4. Should application code look for the literal words “I'll search”? **No; use structured `stop_reason`.**
 5. Is the carrier status necessarily live? **No; it comes from a nightly CSV.**
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. In one sentence, what is tool calling?</strong></summary>
+
+The model requests a named function with structured arguments; the application validates, executes and returns the result.
+
+</details>
+
+<details>
+<summary><strong>2. Does Claude directly access Ledgerline when it requests find_order?</strong></summary>
+
+No. The application executes middleware against the legacy ERP, with identity and authorization controls.
+
+</details>
+
+<details>
+<summary><strong>3. What belongs in a tool definition?</strong></summary>
+
+A stable tool name, a description of purpose and a JSON parameter schema including required fields and types.
+
+</details>
+
+<details>
+<summary><strong>4. What do find_order and delivery_status do?</strong></summary>
+
+find_order looks up orders through Ledgerline middleware; delivery_status reads shipment information from a nightly carrier CSV.
+
+</details>
+
+<details>
+<summary><strong>5. Why does the nightly carrier file matter?</strong></summary>
+
+It can be stale. The assistant must distinguish last recorded scan from a live update and must not invent an ETA.
+
+</details>
+
+<details>
+<summary><strong>6. What is stop_reason=tool_use?</strong></summary>
+
+The model is requesting one or more tool executions. The application should dispatch those approved calls rather than present the tool request as a final answer.
+
+</details>
+
+<details>
+<summary><strong>7. What is stop_reason=end_turn?</strong></summary>
+
+The model has finished its response and the application can return the final answer.
+
+</details>
+
+<details>
+<summary><strong>8. Why not parse the words 'I'll look that up' to trigger a tool?</strong></summary>
+
+Natural-language text is not a reliable control signal. Structured tool-use metadata is.
+
+</details>
+
+<details>
+<summary><strong>9. What is tool_use_id for?</strong></summary>
+
+It pairs each tool result with the specific model-requested tool invocation, especially when multiple tools occur.
+
+</details>
+
+<details>
+<summary><strong>10. Why must the program send tool results back to Claude?</strong></summary>
+
+The model only proposed the action. It does not know execution succeeded or what data returned until the application appends the result.
+
+</details>
+
+<details>
+<summary><strong>11. What makes subsequent API calls stateful from the customer's perspective?</strong></summary>
+
+The application re-sends relevant prior messages, tool requests and results even though individual model calls are stateless.
+
+</details>
+
+<details>
+<summary><strong>12. Where does verified customer identity come from?</strong></summary>
+
+Application-controlled verification such as an email one-time code and trusted session state, never a model-supplied ID.
+
+</details>
+
+<details>
+<summary><strong>13. Can a tool schema enforce order ownership?</strong></summary>
+
+No. The implementation behind the tool must enforce ownership and deny unverified users.
+
+</details>
+
+<details>
+<summary><strong>14. How should an unknown tracking number be handled?</strong></summary>
+
+State that no record is available and request valid information or offer an appropriate fallback; never fabricate shipment status.
+
+</details>
+
+<details>
+<summary><strong>15. When would you avoid a full agent despite having tools?</strong></summary>
+
+If the action sequence is fixed, use a single structured LLM call and deterministic code to run the tools.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
