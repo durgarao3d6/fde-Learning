@@ -199,3 +199,75 @@ The meaning of “good enough” changes:
 - [ ] Decision: **yes / no / not clear yet**.
 - [ ] Track shortcuts and keep regression fixtures.
 - [ ] Never fake **privacy, authorization or money controls**.
+
+---
+
+# Complete Experiment Plan and Decision Record
+
+## One-page example of the prototype agreement
+**Question:** With sample order data available, can the model correctly decide what to do for real order-status and escalation cases?
+
+**Data:** Marco Rossi's **40 real labeled customer chats**.
+
+**Assumed pass condition (illustrative):**
+- **At least 36/40** correct required actions.
+- **Zero missed mandatory human handoffs**.
+
+**Duration:** **Five working days**, agreed before implementation.
+
+**In scope for testing:** model, prompt, tool descriptions, evaluation data and scoring harness.
+
+**Simulated supporting systems:** **20-order sample Ledgerline file**, a small carrier-status fixture, and controlled demonstration of identity-verification infrastructure.
+
+**Always enforced:** approved data handling, secrets outside code, verified ownership checks, no money-moving tool.
+
+**Decision at deadline:** yes, no or not clear yet.
+
+## A worked interpretation of the result
+| Outcome | Pass? | Reason |
+|---|---|---|
+| 36 correct, zero missed handoffs | Yes under illustrative prototype bar | Both criteria met |
+| 39 correct, one missed handoff | **No** | Safety condition failed |
+| 34 correct, zero missed handoffs | **No** | Accuracy condition failed |
+| No trustworthy grading for five cases | Not clear yet | Evidence incomplete |
+
+These rows are examples of how to apply the stated criteria, not results reported from the lesson's actual prototype run.
+
+## Why one high-risk miss dominates the score
+Suppose the assistant gives a confident answer to a conversation requiring a human. A high aggregate score would disguise a failure in the exact escalation mechanism the prototype needs to establish.
+
+This links the experiment's design back to the model-comparison lesson, which found unacceptable missed handoffs despite comparing three candidate models.
+
+## The keep-or-throw-away decision
+At five days:
+- **Keep** reusable verified knowledge and test fixtures.
+- **Keep** clean tool descriptions, prompt versions and evaluation scripts if appropriate.
+- **Discard** disposable mock presentation layers that have no reason to exist beyond the test.
+- **Rewrite** any temporary integration shortcut before a pilot.
+- **Document** what remains unknown and which assumption should be tested next.
+
+### Danger: the accidental production prototype
+A five-day system may contain temporary code that appears to work. The team can become attached to it and deploy it without production controls. The lesson explicitly warns against this failure mode. **Prototype evidence is not production certification.**
+
+## How to explain a time-box extension
+**Bad rationale:** “The demo doesn't look polished.”
+
+**Better rationale:** “We discovered that five of the real messages cannot be graded consistently because the label definition is unclear; we need an owner-led labeling pass to answer the original assumption.”
+
+Even then, define the narrow new question and deadline rather than silently extending scope.
+
+## A shortcut log template
+```markdown
+# Prototype shortcuts and risks
+
+- [ ] Ledgerline is a file fixture of 20 test orders.
+- [ ] Carrier data is a fixed status fixture.
+- [ ] Verification uses a controlled test mechanism.
+- [ ] No production persistence or monitoring.
+- [ ] API keys provided outside repository source.
+- [ ] Customer data location approved by Sofia.
+- [ ] Refund execution is not exposed.
+- [ ] All shortcuts must be reviewed before a pilot.
+```
+
+This list is illustrative, but the **shortcut ledger and review before pilot** are explicit lesson ideas.
