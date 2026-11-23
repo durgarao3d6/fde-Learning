@@ -16,3 +16,6 @@
 .study-jump a{text-decoration:none;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-size:12px;border-radius:9px;font-weight:600}
 .study-jump a:hover{border-color:var(--accent);color:var(--accent)}
 .article-footer-note{margin-top:44px;color:var(--muted);font-size:12px}
+
+.study-jump button{cursor:pointer;text-decoration:none;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-size:12px;border-radius:9px;font-weight:600}
+.study-jump button:hover{border-color:var(--accent);color:var(--accent)}
