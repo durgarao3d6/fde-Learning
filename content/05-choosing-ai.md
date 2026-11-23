@@ -168,3 +168,57 @@ The agent may need to inspect several pieces of evidence before knowing what to 
 - [ ] Extraction model proposes **intent**, code chooses action.
 - [ ] Full agent only where sequence is **dynamic**.
 - [ ] Airline refund-policy warning.
+
+---
+
+# Worked Architecture Decision Exercises
+
+## Exercise A — Order status, one straightforward question
+A customer wants a tracking link for an order already visible in their account.
+
+**Best initial design:** self-service tracking. No model necessary.
+
+**What to measure:** share of customers finding tracking, reduced support contacts, return visits with the same issue, freshness of carrier data.
+
+**Why not an agent?** There is no unresolved decision requiring dynamic tool planning.
+
+## Exercise B — Return eligibility under an explicit policy
+A market-specific policy grants eligibility within a specified number of days, subject to contract and product exceptions.
+
+**Best design:** deterministic rule evaluation with approved policy data.
+
+**What can AI do?** Extract the customer's question or explain the *already-determined* result in plain language. It must not substitute its own imagined law or policy.
+
+**Important nuance:** The lesson's UK 14-day/day-15 example is a policy illustration and does not replace legal review.
+
+## Exercise C — Messy order-status message
+User: “Still waiting on that laptop from last week, can anybody see what's going on?”
+
+**Best design:** one structured LLM extraction may identify order status, missing order number and whether the case needs a human. A fixed workflow then uses authorized tools.
+
+**Why not make the model run the complete system?** The steps may be predictable once the intent is known.
+
+## Exercise D — Multi-problem conversation
+User: “My late parcel is damaged, I ordered two items and want a refund for one but still need the other delivered.”
+
+**Potentially appropriate:** bounded multi-tool agent that discovers the orders and issue details, then routes to deterministic return/refund checks and human approval.
+
+**Still forbidden:** allowing the model to send an actual refund merely because it concludes one is appropriate.
+
+## Architectural decision record (example)
+```markdown
+Decision: use deterministic return rules.
+Context: policy differs by market, dates and contract.
+Alternative: ask model to decide refund eligibility.
+Reason: consistent, testable policy execution is necessary.
+AI role: extract request intent and explain policy outcome.
+Safeguard: human approval for financial actions.
+```
+
+The record is illustrative; the value is making the decision defensible.
+
+## Cost and risk comparison
+An FDE should explain that AI complexity adds **inference cost, latency, extra failure modes, security surface and operational monitoring**. Those costs may be justified for complex chats, but not for a simple “show tracking” link.
+
+## Final question to remember
+**“What is the simplest intervention that improves the actual customer outcome?”** The answer may be no model, one model call, deterministic logic or a full agent—and that choice should follow evidence.
