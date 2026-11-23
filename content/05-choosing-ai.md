@@ -222,3 +222,124 @@ An FDE should explain that AI complexity adds **inference cost, latency, extra f
 
 ## Final question to remember
 **“What is the simplest intervention that improves the actual customer outcome?”** The answer may be no model, one model call, deterministic logic or a full agent—and that choice should follow evidence.
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Use these prompts for oral practice. Answer aloud before revealing the explanation beneath each question.
+
+<details>
+<summary><strong>1. What are the four automation levels?</strong></summary>
+
+No AI/self-service; deterministic code; a single structured LLM call with fixed code workflow; a full tool-using agent.
+
+</details>
+
+<details>
+<summary><strong>2. Why might order status need no AI?</strong></summary>
+
+About four in ten chats ask for tracking, which a direct account tracking link or proactive delay alert may answer faster.
+
+</details>
+
+<details>
+<summary><strong>3. What should a self-service solution measure?</strong></summary>
+
+Customer completion, reduced support contact, reduced same-issue repeats and correctness of data shown.
+
+</details>
+
+<details>
+<summary><strong>4. When should rules be deterministic?</strong></summary>
+
+When eligibility is governed by explicit market, delivery-date, contract and policy-version rules.
+
+</details>
+
+<details>
+<summary><strong>5. What is the course's illustrative UK return example?</strong></summary>
+
+A 14-day policy and a day-15 request deemed ineligible under that example; not universal legal advice.
+
+</details>
+
+<details>
+<summary><strong>6. Why not let an LLM decide refunds from memory?</strong></summary>
+
+It may hallucinate or misapply policy, causing incorrect customer promises and business exposure.
+
+</details>
+
+<details>
+<summary><strong>7. What role can one model call play safely?</strong></summary>
+
+Extract intent, order number and handoff flag into a validated structure; application code chooses the fixed workflow.
+
+</details>
+
+<details>
+<summary><strong>8. When might you use a second model call?</strong></summary>
+
+For wording a final response after deterministic code has determined the authorized action.
+
+</details>
+
+<details>
+<summary><strong>9. When is a full agent justified?</strong></summary>
+
+Complex multi-issue requests where the next tool depends on intermediate evidence and the sequence cannot be fixed in advance.
+
+</details>
+
+<details>
+<summary><strong>10. What is the airline-chatbot warning about?</strong></summary>
+
+A bot invented refund terms and the airline was held responsible; an AI-generated answer can create real commercial consequences.
+
+</details>
+
+<details>
+<summary><strong>11. Does more AI necessarily mean more business value?</strong></summary>
+
+No. It may add latency, cost, privacy exposure, security surface and failure modes.
+
+</details>
+
+<details>
+<summary><strong>12. How does 'agent proposes, code enforces' apply?</strong></summary>
+
+The model can suggest a policy lookup or action, but deterministic code decides eligibility and controls financial side effects.
+
+</details>
+
+<details>
+<summary><strong>13. How would you reject an unnecessary agent request diplomatically?</strong></summary>
+
+Show how the simpler workflow meets the same customer need with fewer failure modes and propose a pilot comparing outcomes.
+
+</details>
+
+<details>
+<summary><strong>14. What data might justify moving from one call to an agent?</strong></summary>
+
+Observed multi-step cases where fixed workflows repeatedly fail and dynamic tool sequencing improves the measured outcome.
+
+</details>
+
+<details>
+<summary><strong>15. What is the main principle?</strong></summary>
+
+Choose the least complex architecture that safely achieves the business outcome.
+
+</details>
+
+## How to practise with this chapter
+
+1. Explain the lesson's actual business problem in 45 seconds.
+2. Recreate the architecture or sequence from memory.
+3. Recall exact numbers and named decision-makers without checking the notes.
+4. Explain one failure case and the deterministic safeguard.
+5. Use the Q&A above to prepare a two-minute FDE interview answer.
+
