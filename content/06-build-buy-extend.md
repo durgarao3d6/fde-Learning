@@ -183,3 +183,58 @@ This is a **conceptual architecture** drawn from the lesson, not an assertion th
 - [ ] Weekly and annual cost arithmetic.
 - [ ] **Seven-day same-issue repeat** resolution definition.
 - [ ] **Legacy Ledgerline** integration gap.
+
+---
+
+# Additional Vendor Selection and Financial Review Detail
+
+## 1. Stakeholder review is not optional
+A vendor can look excellent in a demo and still fail when connected to a legacy system. DemoStore requires coordinated decisions:
+- **Lena Brandt**: sponsor and business outcome.
+- **Marco Rossi**: support process and genuine resolution.
+- **Ravi Menon**: engineering systems, existing licenses and integration permission.
+- **Sofia Lindqvist**: privacy, retention and data location.
+
+The FDE's job is to connect those concerns into a solution rather than optimize only the chatbot's conversational performance.
+
+## 2. Vendor comparison scorecard (illustrative)
+| Criterion | Check | Evidence to request |
+|---|---|---|
+| Existing-system fit | Can it extend ServiceNow / Now Assist? | Integration demonstration |
+| Ledgerline support | Is custom middleware needed? | Connector documentation |
+| Return decisions | Can deterministic policies be enforced? | Test cases per market |
+| Handoff | Is ServiceNow case creation reliable? | End-to-end trace |
+| Privacy | Where is data processed, stored and retained? | DPA/security review |
+| Billing | What is a billable resolution? | Contract definition |
+| Outcome | No handoff AND no repeat within 7 days? | Client-side measurement |
+| Operational control | Logs, ownership, rollback, escalation | Engineering runbooks |
+
+The scorecard is a proposed way to evaluate vendors, not a claim that DemoStore used these exact criteria in a formal procurement table.
+
+## 3. Understand the baseline numbers properly
+At 1,600 order-status chats weekly:
+- **Human-only illustrative cost:** $11,200/week.
+- **Vendor fee if every chat is billed at $0.99:** $1,584/week.
+- **Annualized:** $582,400 versus $82,368.
+
+A tempting but flawed headline is “we save roughly half a million dollars every year.” That presupposes **all chats are truly resolved**, nobody contacts support again and integration has no costs. The actual FDE model must account for unresolved and repeated cases and the vendor's charging definition.
+
+### Example sensitivity exercise
+Suppose only 60% of chats meet DemoStore's true-resolution definition (purely illustrative). The remainder still need handling, and the vendor may charge for outcomes the business does not count. Cost per *genuine* resolution can rise sharply, even if the per-billed-interaction price is low.
+
+Do not present the 60% as observed course data; it is an example showing why definitions matter.
+
+## 4. Why extend rather than replace ServiceNow?
+Existing organizations have approved processes, case ownership, audit requirements and trained agents. Reusing them reduces migration risk. Building a new support backend solely for AI may create duplicate systems and scattered accountability.
+
+A custom component should be **thin and specific**: Ledgerline middleware, policy evaluator, secure orchestration and evaluation harness.
+
+## 5. Separation between customer success and vendor success
+A vendor's “resolved” event might mean it did not transfer the chat. DemoStore's definition additionally requires the customer **not to come back within seven days for the same issue**.
+
+That second condition forces the measurement to be tied to real customer outcomes rather than surface-level bot activity.
+
+## 6. Where risk can override economic advantage
+Even low-cost automation should not handle data in a region or retention arrangement that the DPO has not approved. Nor should it bypass human approval for refunds.
+
+Model quality, privacy, policy governance and integration access are **constraints**, not just price-adjustment factors.
