@@ -31,3 +31,140 @@ An airline chatbot invented a refund-policy promise, and the airline faced respo
 
 ## Remember
 **Use the least complicated approach that produces the business result.**
+
+---
+
+# Detailed notes: deciding the right automation level
+
+## 1. Why this question matters for an FDE
+A Forward Deployed Engineer is not hired simply to deploy the most advanced model. The job is to improve a real workflow, often under time, privacy and cost constraints. Before using a model, ask **what problem is being solved and whether AI is necessary**.
+
+A useful decision ladder is **no AI → deterministic code → one structured LLM call → autonomous agent**. Complexity should increase only if measured business needs justify it.
+
+## 2. Level one: no AI at all
+DemoStore finds about **40% (four in ten)** support chats concern order status. If a customer wants tracking information, the highest-value product intervention might be:
+- A clearly visible order-tracking page.
+- A reliable, direct link to the carrier.
+- A proactive notice when shipping is delayed.
+- Better order emails with accessible delivery updates.
+
+These are not inferior to an agent. They may have less latency, almost no per-chat inference cost, fewer failure cases and less support friction.
+
+**Important nuance:** If the carrier's source file updates nightly, even a self-service system must communicate data freshness and avoid implying a live view.
+
+### Example decision question
+“Could the customer solve this in one click without needing to explain the issue to an AI?” If yes, test the self-service improvement first.
+
+## 3. Level two: deterministic program logic
+Use code when answers depend on explicit policy conditions rather than open-ended language interpretation.
+
+The course's return-policy inputs include:
+- Customer market or jurisdiction.
+- Actual delivery date.
+- Contract or special agreement.
+- Applicable version of the policy.
+
+An illustrative eligibility function:
+```python
+from datetime import date
+
+def eligible_within_window(delivery_date: date, request_date: date, days: int) -> bool:
+    age = (request_date - delivery_date).days
+    return 0 <= age <= days
+```
+
+**This is only a simplified example.** A real returns engine must handle exceptions, weekends or time zones where relevant, statutory rights, policy versions, products, special agreements and approved legal rules.
+
+The lesson's **UK 14-day, day-15 ineligible** example is an illustrative policy rule, not a universal statement of all UK consumer-law rights.
+
+Why not prompt Claude with “Our return window is 14 days, decide if this is eligible”? Because the model might be inconsistent, overlook market-specific policy, or misapply dates.
+
+### Airline warning
+The lesson refers to an airline support chatbot that incorrectly described refund terms, and the airline bore responsibility for the representation. The practical point: **customer-facing AI statements can create real business obligations**, even if a team calls them merely an LLM response.
+
+## 4. Level three: one LLM call for extraction
+A single model call is valuable when customers express the same intent in many ways:
+- “Where's my parcel?”
+- “My laptop never turned up.”
+- “Still waiting for order 123.”
+- “Can someone tell me where the delivery is?”
+
+Instead of making the LLM manage an entire workflow, ask it to return a **structured classification**:
+```json
+{
+  "intent": "order_status",
+  "order_number": "123",
+  "needs_human": false
+}
+```
+
+The application then decides the **fixed next action**. For example:
+```text
+customer message
+    ↓
+one LLM intent extraction
+    ↓
+validated structured result
+    ↓
+deterministic code chooses workflow
+    ↓
+authorized data lookup / handoff
+    ↓
+template response or optional second wording call
+```
+
+The extraction class names are illustrative; actual controlled values must match the shared project schema.
+
+**Benefit:** The model handles flexible language while the code owns policy and side effects.
+
+## 5. Level four: agent loop
+Use a dynamic sequence when the next tool depends on intermediate results. A support chat might combine:
+- An order that is marked shipped.
+- A delivery complaint.
+- A possible return.
+- A request for a person.
+
+The agent may need to inspect several pieces of evidence before knowing what to do next. This is where tool-calling with a bounded loop may be warranted.
+
+**Agent ≠ default.** A multi-step agent increases token use, tool-call costs, debugging complexity, authorization surfaces and potential failure paths.
+
+## 6. Practical comparison
+| Level | Good fit | Main advantage | Main failure concern |
+|---|---|---|---|
+| Self-service/no AI | Simple status queries | Fast, cheap, direct | Bad or stale underlying information |
+| Deterministic code | Return/refund eligibility | Consistent, testable | Incorrectly configured policy |
+| One LLM extraction | Messy customer phrasing | Language flexibility | Misclassification |
+| Full agent | Complex multi-issue cases | Dynamic evidence gathering | Tool errors, loops, prompt injection |
+
+## 7. Decision workflow an FDE can use
+1. Classify the business problem and frequency.
+2. Quantify value of resolving it.
+3. Try simple UX/process improvements first.
+4. Identify decisions governed by precise rules.
+5. Reserve AI for ambiguous language or complex reasoning.
+6. Restrict model actions to supported application capabilities.
+7. Measure outcomes on **real representative cases**.
+8. Check whether benefit justifies additional operational complexity.
+
+## 8. Common mistakes
+**“We have an AI budget, therefore every step must use AI.”** Business value is the target, not token consumption.
+
+**Using a model as a policy engine.** Prompts are not an approved returns-rule database.
+
+**Using an agent for a single lookup.** Adds complexity without a dynamic decision need.
+
+**Treating customer satisfaction with a pleasant answer as proof of correctness.** A fluent false refund promise is still a failure.
+
+## 9. Interview scenario
+**Question:** “A client wants an AI agent for 1,600 weekly tracking questions. How would you respond?”
+
+**Answer:** “I would first investigate whether better tracking pages and proactive notifications could deflect routine queries. I would keep exact return and refund decisions in code, use structured extraction if natural language is needed, and reserve an agent for cases that genuinely require multiple dependent tool calls. I would compare actual resolution, errors, handoffs and costs rather than maximizing AI usage.”
+
+### Revision checklist
+- [ ] Four architecture levels in order.
+- [ ] **Four out of ten** order-status chats.
+- [ ] Policy inputs: market, delivery date, contract, policy version.
+- [ ] **UK 14-day/day-15** example is illustrative.
+- [ ] Extraction model proposes **intent**, code chooses action.
+- [ ] Full agent only where sequence is **dynamic**.
+- [ ] Airline refund-policy warning.
