@@ -605,3 +605,228 @@ The difference is not a hidden bug in the notes. The lesson **calls it out on pu
 - [ ] I know **only the team** is allowed to try this incomplete build.
 
 **Practical task from the course:** Interview yourself with Claude Code about a new feature, one question at a time. Record every decision that could not be found in your existing notes.
+
+
+---
+
+# FDE Interview Questions & Answers — Comprehensive Practice Bank
+
+Open each question after attempting your own answer. These questions check exact transcript decisions as well as the engineering reasoning behind them.
+
+<details>
+<summary><strong>1. Where does the coding-agent brief come from?</strong></summary>
+
+From a structured interview grounded in discovery notes, traceable user stories, open questions, project rules and existing code.
+
+</details>
+
+<details>
+<summary><strong>2. What is a user story?</strong></summary>
+
+A statement of who needs what and why, ideally linked to the precise discovery-note line that justifies it.
+
+</details>
+
+<details>
+<summary><strong>3. How long should the next-build brief be?</strong></summary>
+
+About one short page defining build-now scope, limits, exclusions and remaining open questions.
+
+</details>
+
+<details>
+<summary><strong>4. What does Claude Code do in Plan Mode?</strong></summary>
+
+Read project materials and ask questions without changing code.
+
+</details>
+
+<details>
+<summary><strong>5. Why one question at a time?</strong></summary>
+
+Later questions can depend on earlier answers and reveal contradictions that a generic one-shot prompt could miss.
+
+</details>
+
+<details>
+<summary><strong>6. Why should each question include a recommendation?</strong></summary>
+
+It grounds the interview in existing evidence and saves decision time, while still letting the engineer reject every offered option.
+
+</details>
+
+<details>
+<summary><strong>7. What is the first question and recommendation?</strong></summary>
+
+Which questions will version one answer autonomously? Start with order status and a human-support option.
+
+</details>
+
+<details>
+<summary><strong>8. Why order status first?</strong></summary>
+
+Approximately four in ten chats concern orders, and the team already has relevant order lookup tools.
+
+</details>
+
+<details>
+<summary><strong>9. Why defer returns?</strong></summary>
+
+Market-specific return rules are still unresolved questions, so the assistant should not invent them.
+
+</details>
+
+<details>
+<summary><strong>10. What three human-handoff choices were suggested?</strong></summary>
+
+Create a ServiceNow case, use a contact form or transfer to a live support-agent queue.
+
+</details>
+
+<details>
+<summary><strong>11. What did the engineer select for human handoff?</strong></summary>
+
+None yet: the Talk to a person button only sends a message, while real ServiceNow case creation is deferred.
+
+</details>
+
+<details>
+<summary><strong>12. Where should order data come from?</strong></summary>
+
+Sample files behind the existing tool contracts, because production Ledgerline access is unavailable.
+
+</details>
+
+<details>
+<summary><strong>13. How is verification represented in this build?</strong></summary>
+
+A session field exists for the verified customer, but it stays empty because verification has not been implemented.
+
+</details>
+
+<details>
+<summary><strong>14. What exact contradiction did Claude Code discover?</strong></summary>
+
+find_order only reveals an order to a verified customer, while no customer can become verified; therefore every order lookup is blocked.
+
+</details>
+
+<details>
+<summary><strong>15. What did Claude Code recommend to bypass that problem?</strong></summary>
+
+A configured demo customer, which would make the example appear to work.
+
+</details>
+
+<details>
+<summary><strong>16. Why was the demo-customer workaround rejected?</strong></summary>
+
+The engineer prioritized the ownership/verification boundary and chose to state honestly that order lookup is not yet available.
+
+</details>
+
+<details>
+<summary><strong>17. If order status is the first goal, why can version one answer no orders?</strong></summary>
+
+It is an internal end-to-end infrastructure slice; auth safety takes precedence over the apparent completeness of the demonstration.
+
+</details>
+
+<details>
+<summary><strong>18. What are the three quickly stated final interview answers?</strong></summary>
+
+An end-to-end app with honest limits; sessions in memory only; test English while adding language to intent.
+
+</details>
+
+<details>
+<summary><strong>19. How many interview questions are in the lesson?</strong></summary>
+
+Eight.
+
+</details>
+
+<details>
+<summary><strong>20. What three product requirements did the agent miss?</strong></summary>
+
+AI transparency with option to ask for a person, a single Python intent class reused three ways, and a visible typing indicator.
+
+</details>
+
+<details>
+<summary><strong>21. What does the EU AI Act reference explain?</strong></summary>
+
+The AI-interaction disclosure. The right to request a person is described separately as DemoStore's own rule.
+
+</details>
+
+<details>
+<summary><strong>22. Which three components share the intent class?</strong></summary>
+
+Claude's structured answer, FastAPI's response sent to the widget, and the generated API documentation.
+
+</details>
+
+<details>
+<summary><strong>23. Where is the final approved brief saved?</strong></summary>
+
+docs/brief-chat.md.
+
+</details>
+
+<details>
+<summary><strong>24. What are its three core constraints?</strong></summary>
+
+Do not persist sessions, do not return order information without verified identity and do not write to Ledgerline.
+
+</details>
+
+<details>
+<summary><strong>25. What comes in later builds?</strong></summary>
+
+Real ServiceNow handoff, one-time-code delivery and verification, and returns.
+
+</details>
+
+<details>
+<summary><strong>26. What five points are retained for actual implementation?</strong></summary>
+
+Chat service, AI notice, one intent class, chat widget, and opt-in live tests that really call Claude.
+
+</details>
+
+<details>
+<summary><strong>27. Why is the implemented behavior deliberately different from the brief?</strong></summary>
+
+The implementation keeps the earlier agent loop with two guarded order tools, so it may request a one-time code even before the next build can send the code.
+
+</details>
+
+<details>
+<summary><strong>28. Who should use this incomplete first version?</strong></summary>
+
+Only the project team; it is not customer-ready.
+
+</details>
+
+<details>
+<summary><strong>29. What course exercise is assigned?</strong></summary>
+
+Ask Claude Code to interview you about one feature, one question at a time, and record the answers missing from your notes.
+
+</details>
+
+<details>
+<summary><strong>30. What is the practical rule?</strong></summary>
+
+Let the agent interview you before writing the brief, then add what only you know.
+
+</details>
+
+## Practice routine
+
+- Explain the lesson's business need without reading the notes.
+- Reproduce the questions, answers, numbers and implementation order.
+- Compare what the coding agent suggested against what the engineer actually approved.
+- Identify which behavior was implemented versus deferred.
+- Deliver a two-minute FDE interview answer and defend one security decision.
