@@ -1,6 +1,6 @@
 # FDE Learning — Comprehensive study guide and coverage index
 
-This companion is a map to the full chapter notes and FDE interview questions. The website's **FDE Interview Q&A** controls jump to each chapter's collapsible practice bank. For every question, answer aloud before revealing the written response.
+This companion is a map to the full chapter notes and FDE interview questions. Chapter 12 follows the uploaded full-length study-note format, with a complete walkthrough, 40 interview questions, a 6-question self-check and a detailed revision checklist. The website's **FDE Interview Q&A** controls jump to each chapter's collapsible practice bank. For every question, answer aloud before revealing the written response.
 
 ## Coverage and interview count
 
@@ -17,7 +17,8 @@ This companion is a map to the full chapter notes and FDE interview questions. T
 | [09 — Coding agents and AI SDLC](content/09-coding-agent-sdlc.md) | Phase plans, CLAUDE.md, allow/ask/deny, /clear, independent tests, Git, Ravi's review | 18 |
 | [10 — Interview-driven brief](content/10-interview-brief.md) | Full eight-question walkthrough, order-verification conflict, three missed requirements, brief file | 30 |
 | [11 — Chat service and widget](content/11-chat-service-widget.md) | Full five-point brief, three questions, seven phases, Pydantic fields, four tests and phase-one commit | 36 |
-| **Total** | **11 lessons** | **213** |
+| [12 — Reviewing and running the chat app](content/12-review-run-chat-service-widget.md) | Seven phases finished, 13 fast and 3 live tests, failed plan-file copy, disabled handoff button, session-ID race, browser test and FastAPI docs | **40 interview Q&A + 6 knowledge-check prompts** |
+| **Total** | **12 lessons** | **253 interview Q&A + 6 knowledge-check prompts** |
 
 ## What each chapter includes
 
