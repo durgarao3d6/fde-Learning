@@ -1,6 +1,6 @@
 # FDE Learning — Comprehensive study guide and coverage index
 
-This companion is a map to the full chapter notes and FDE interview questions. Chapter 12 follows the uploaded full-length study-note format, with a complete walkthrough, 40 interview questions, a 6-question self-check and a detailed revision checklist. The website's **FDE Interview Q&A** controls jump to each chapter's collapsible practice bank. For every question, answer aloud before revealing the written response.
+This companion is a map to the full chapter notes and FDE interview questions. Chapters 11–15 follow the long-form study-note style, with carefully numbered explanations, detailed walkthroughs, FDE interview answers, knowledge checks and revision checklists. The website's **FDE Interview Q&A** controls jump to each chapter's collapsible practice bank. For every question, answer aloud before revealing the written response.
 
 ## Coverage and interview count
 
@@ -16,9 +16,12 @@ This companion is a map to the full chapter notes and FDE interview questions. C
 | [08 — Time-boxed prototypes](content/08-prototype.md) | Five-day limit, 36/40 + zero missed handoffs, real/fake boundary, 20 test orders, shortcut ledger | 19 |
 | [09 — Coding agents and AI SDLC](content/09-coding-agent-sdlc.md) | Phase plans, CLAUDE.md, allow/ask/deny, /clear, independent tests, Git, Ravi's review | 18 |
 | [10 — Interview-driven brief](content/10-interview-brief.md) | Full eight-question walkthrough, order-verification conflict, three missed requirements, brief file | 30 |
-| [11 — Chat service and widget](content/11-chat-service-widget.md) | Full five-point brief, three questions, seven phases, Pydantic fields, four tests and phase-one commit | 36 |
+| [11 — Chat service and widget](content/11-chat-service-widget.md) | Uploaded full notes: five-point brief, three questions, seven phases, Pydantic fields, four tests and phase-one commit | 17 main additional Q&A |
 | [12 — Reviewing and running the chat app](content/12-review-run-chat-service-widget.md) | Seven phases finished, 13 fast and 3 live tests, failed plan-file copy, disabled handoff button, session-ID race, browser test and FastAPI docs | **40 interview Q&A + 6 knowledge-check prompts** |
-| **Total** | **12 lessons** | **253 interview Q&A + 6 knowledge-check prompts** |
+| [13 — TypeScript browser fundamentals](content/13-typescript-browser-fundamentals.md) | Interfaces, async/await, fetch, runtime response checks, HTTP errors and browser secrets | 40 + 6 knowledge checks |
+| [14 — Two-voice specs](content/14-two-voice-specifications.md) | Business and IT voices, traceability, scope exclusions, never rules, PR-based updates | 40 + 6 knowledge checks |
+| [15 — Automated checks and pre-commit hooks](content/15-automated-checks-precommit.md) | pytest, Ruff, mypy, tsc, Git hooks, fast vs slow tests, bypass and weakening risks | 40 + 6 knowledge checks |
+| **Total** | **15 lessons** | **354 numbered FDE Q&A (counted across chapter banks), plus knowledge checks** |
 
 ## What each chapter includes
 
