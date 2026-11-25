@@ -33,7 +33,7 @@ This is an independent set of educational study notes based on fictional course 
 
 The expanded notes are designed for revision and FDE interviews. Chapters include detailed lesson walkthroughs, technical flows, concepts and trade-offs, DemoStore-specific facts, code examples, operational pitfalls, FDE interview answers and review checklists.
 
-The study collection now spans **15 chapters**, with comprehensive FDE interview practice, knowledge checks and revision lists. Chapters 11–15 follow the full-length reference-note format. The notes also distinguish transcript facts from additional illustrative engineering examples.
+The study collection now spans **16 chapters**, with comprehensive FDE interview practice, knowledge checks and revision lists. Chapters 11–15 follow the full-length reference-note format. The notes also distinguish transcript facts from additional illustrative engineering examples.
 
 The latest two topics are especially detailed:
 - [Interview-driven implementation brief](content/10-interview-brief.md) — all 8 original questions, proposed answers, the verification contradiction, 3 manually added requirements, 30 FDE interview prompts and a complete checklist.
@@ -52,3 +52,5 @@ For completeness, see [the study coverage index](STUDY-GUIDE.md).
 - [Chapter 13 — TypeScript Fundamentals for Browser Chat Widgets](content/13-typescript-browser-fundamentals.md): types, interfaces, async/await, fetch, `response.ok`, API contract validation and keeping Claude credentials on the server. Contains 40 FDE interview Q&A and six knowledge-check questions.
 - [Chapter 14 — Two-Voice Specifications](content/14-two-voice-specifications.md): Marco-reviewed business stories, Ravi-reviewed technical contracts, traceability IDs, tests, out-of-scope decisions and never-do constraints. Contains 40 FDE interview Q&A and six knowledge-check questions.
 - [Chapter 15 — Automated Checks and Git Pre-Commit Hooks](content/15-automated-checks-precommit.md): pytest, Ruff, mypy, tsc, pre-commit, fast local checks, slower PR checks, bypass restrictions and careful review of changed tests. Contains 40 FDE interview Q&A and six knowledge-check questions.
+
+- [Chapter 16 — Build 1: Plan and Verify Phase One](content/16-build-one-agent-plan-phase-one.md): eight-phase agent plan, two discovered code gaps, approved OTP/scoring/commit decisions, parcel authorization correction, seven passing fast tests, verified plan, and hook-backed first commit. Includes 50 FDE interview Q&A and six self-check questions.
