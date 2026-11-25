@@ -21,7 +21,7 @@ This companion is a map to the full chapter notes and FDE interview questions. C
 | [13 — TypeScript browser fundamentals](content/13-typescript-browser-fundamentals.md) | Interfaces, async/await, fetch, runtime response checks, HTTP errors and browser secrets | 40 + 6 knowledge checks |
 | [14 — Two-voice specs](content/14-two-voice-specifications.md) | Business and IT voices, traceability, scope exclusions, never rules, PR-based updates | 40 + 6 knowledge checks |
 | [15 — Automated checks and pre-commit hooks](content/15-automated-checks-precommit.md) | pytest, Ruff, mypy, tsc, Git hooks, fast vs slow tests, bypass and weakening risks | 40 + 6 knowledge checks |
-| **Total** | **15 lessons** | **354 numbered FDE Q&A (counted across chapter banks), plus knowledge checks** |
+| [16 — Build 1: planning and first-phase verification](content/16-build-one-agent-plan-phase-one.md) | Eight phases, two code gaps, three approved decisions, parcel ownership fix, 7 passing fast tests, hook and commit | 50 + 6 knowledge checks |\n| **Total** | **16 lessons** | **404 numbered FDE Q&A plus knowledge checks** |
 
 ## What each chapter includes
 
