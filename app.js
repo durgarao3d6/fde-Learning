@@ -11,7 +11,8 @@ const lessons = [
 {slug:"10-interview-brief",title:"Interview-Driven Briefs",summary:"Eight questions, a verification conflict and the human requirements the model missed.",group:"CODING AGENTS"},
 {slug:"11-chat-service-widget",title:"Chat Service & Widget",summary:"FastAPI, Pydantic, React, TypeScript and seven reviewable coding-agent phases.",group:"CODING AGENTS"},
 {slug:"12-review-run-chat-service-widget",title:"Review & Run the Chat Application",summary:"Verify 13 fast and 3 live tests, catch a broken plan file, fix the human-support button, and test real browser behavior.",group:"CODING AGENTS"},
-{slug:"13-typescript-browser-fundamentals",title:"TypeScript for Browser Chat Widgets",summary:"Learn interfaces, async/await, fetch, runtime response validation, HTTP errors, and browser-side secret safety.",group:"FRONTEND FUNDAMENTALS"}
+{slug:"13-typescript-browser-fundamentals",title:"TypeScript for Browser Chat Widgets",summary:"Learn interfaces, async/await, fetch, runtime response validation, HTTP errors, and browser-side secret safety.",group:"FRONTEND FUNDAMENTALS"},
+{slug:"14-two-voice-specifications",title:"Two-Voice Specs & Traceability",summary:"Write client-reviewed business stories and technical contracts, link every requirement to tests, and constrain coding agents with explicit scope and never-do rules.",group:"REQUIREMENTS & DELIVERY"}
 ];
 const root = document.querySelector("#main"), nav = document.querySelector("#chapter-nav"), crumb = document.querySelector("#crumb");
 let cache = new Map();
