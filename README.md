@@ -40,3 +40,8 @@ The latest two topics are especially detailed:
 - [FastAPI and React widget implementation planning](content/11-chat-service-widget.md) — 5-part brief, 3 clarification questions, 7 phases, phase-one code verification, 36 FDE interview prompts and a complete checklist.
 
 For completeness, see [the study coverage index](STUDY-GUIDE.md).
+
+
+## Chapter 12 — Review, Run, and Validate the Chat App
+
+[Read the complete study notes](content/12-review-run-chat-service-widget.md). This chapter follows the long-form course format: 23 parts, 58 numbered sections, code walkthroughs, 40 FDE interview questions with answers, six knowledge-check questions, and detailed revision checklists. Its key findings are the nearly empty saved plan file, the human-support button being disabled during loading, the pending-reply fix, and the unresolved first-session-ID race. The course's **DemoStore** app is distinct from this static study website.
